@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screen/homepage.dart';
+import 'screen/problemsolving.dart';
 
 const backgroundMainColor = Color(0xFFF2F2F2);
 
@@ -17,7 +17,7 @@ class NumberCrunching extends StatelessWidget{
         scaffoldBackgroundColor: backgroundMainColor,
         accentColor: Colors.green,
       ),
-      home:HomePage(),
+      home:ProblemSolvingPage(),
     );
     throw UnimplementedError();
   }
