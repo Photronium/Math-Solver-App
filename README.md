@@ -1,6 +1,6 @@
 # numbercrunching
 
-A new Flutter application.
+The Flutter Application Project for Practice on Software Engineering (CO3055) - HCMUT.
 
 ## Getting Started
 
