@@ -38,22 +38,37 @@ class DrawTab extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Learning Material'),
+            onTap: (){
+              print("TAP 1");
+            }
           ),
           ListTile(
             leading: Icon(Icons.check),
             title: Text('Test'),
+            onTap: (){
+              print("TAP 2");
+            }
           ),
           ListTile(
             leading: Icon(Icons.center_focus_strong),
             title: Text('Problem Solving'),
+            onTap: (){
+              print("TAP 3");
+            }
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('Account Report & Analysis'),
+            onTap: () {
+              print("TAP 4");
+            },
           ),
           ListTile(
             leading: Icon(Icons.comment),
             title: Text('Community Forum'),
+            onTap: (){
+              print("TAP 5");
+            },
           ),
         ],
       ),
