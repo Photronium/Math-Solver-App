@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'problem_solving/problemsolving.dart';
+import '../screen/learning_material/learning_material.dart';
 
 class DrawTab extends StatelessWidget {
   @override
@@ -40,7 +41,9 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.book),
             title: Text('Learning Material'),
             onTap: (){
-              print("TAP 1");
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => LearningMaterialPage())
+              );
             }
           ),
           ListTile(
