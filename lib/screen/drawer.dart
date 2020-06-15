@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'problem_solving/problemsolving.dart';
 
 class DrawTab extends StatelessWidget {
   @override
@@ -53,7 +54,10 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.center_focus_strong),
             title: Text('Problem Solving'),
             onTap: (){
-              print("TAP 3");
+              Navigator.push(
+                context,
+                  MaterialPageRoute(builder:(context) => ProblemSolvingPage())
+              );
             }
           ),
           ListTile(
