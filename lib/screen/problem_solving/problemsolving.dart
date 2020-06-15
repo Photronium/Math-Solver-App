@@ -21,11 +21,11 @@ class ProblemSolvingPage extends StatelessWidget {
             Container(
                 height: 100.0,
                 margin: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
                 child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  color: Colors.white,
                   child: ListTile(
                     leading: Image(
                       image:
@@ -48,11 +48,11 @@ class ProblemSolvingPage extends StatelessWidget {
             Container(
                 height: 100.0,
                 margin: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
                 child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  color: Colors.white,
                   child: ListTile(
                     leading: Image(
                       image: AssetImage(
@@ -75,11 +75,11 @@ class ProblemSolvingPage extends StatelessWidget {
             Container(
                 height: 100.0,
                 margin: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
                 child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    color: Colors.white,
                   onPressed: () {
                     print("Cutting Plane");
                   },
