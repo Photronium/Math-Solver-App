@@ -16,7 +16,7 @@ class BottomBackButton extends StatelessWidget {
           color: Colors.green,
           child: Text("BACK", style: kBottomButtonStyle),
           onPressed: (){
-            print("BACK");
+            Navigator.pop(context);
           }
       ),
     );

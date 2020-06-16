@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'problem_solving/problemsolving.dart';
 import '../screen/learning_material/learning_material.dart';
+import '../screen/dashboard/dashboard.dart';
 
 class DrawTab extends StatelessWidget {
   @override
@@ -11,7 +12,12 @@ class DrawTab extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.green,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.blue, Colors.green],
+                tileMode: TileMode.repeated,
+              ),
             ),
             child: Column(
               children: <Widget>[
@@ -65,9 +71,12 @@ class DrawTab extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text('Account Report & Analysis'),
+            title: Text('Dashboard'),
             onTap: () {
-              print("TAP 4");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder:(context) => Dashboard())
+              );
             },
           ),
           ListTile(
