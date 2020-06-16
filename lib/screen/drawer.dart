@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'problem_solving/problem_solving_screen.dart';
 import '../screen/learning_material/learning_material.dart';
+import '../screen/dashboard/dashboard.dart';
 
 class DrawTab extends StatelessWidget {
   @override
@@ -11,7 +12,12 @@ class DrawTab extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.green,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.blue, Colors.green],
+                tileMode: TileMode.repeated,
+              ),
             ),
             child: Column(
               children: <Widget>[
@@ -41,6 +47,7 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.book),
             title: Text('Learning Material'),
             onTap: (){
+              Navigator.pop(context);
               Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => LearningMaterialPage())
               );
@@ -57,6 +64,7 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.center_focus_strong),
             title: Text('Problem Solving'),
             onTap: (){
+              Navigator.pop(context);
               Navigator.push(
                 context,
                   MaterialPageRoute(builder:(context) => ProblemSolvingPage())
@@ -65,9 +73,13 @@ class DrawTab extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text('Account Report & Analysis'),
+            title: Text('Dashboard'),
             onTap: () {
-              print("TAP 4");
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder:(context) => Dashboard())
+              );
             },
           ),
           ListTile(
