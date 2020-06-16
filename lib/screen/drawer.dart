@@ -47,6 +47,7 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.book),
             title: Text('Learning Material'),
             onTap: (){
+              Navigator.pop(context);
               Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => LearningMaterialPage())
               );
@@ -63,6 +64,7 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.center_focus_strong),
             title: Text('Problem Solving'),
             onTap: (){
+              Navigator.pop(context);
               Navigator.push(
                 context,
                   MaterialPageRoute(builder:(context) => ProblemSolvingPage())
@@ -73,6 +75,7 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.account_circle),
             title: Text('Dashboard'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(builder:(context) => Dashboard())
