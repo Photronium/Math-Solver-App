@@ -11,6 +11,7 @@ class Dashboard extends StatelessWidget {
           title:
               Text('Dashboard', style: TextStyle(fontWeight: FontWeight.w300)),
           centerTitle: true,
+          backgroundColor: Colors.white,
         ),
         drawer: DrawTab(),
         body: ListView(
