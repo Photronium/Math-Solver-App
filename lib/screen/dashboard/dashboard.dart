@@ -59,7 +59,6 @@ class ScoreChart extends StatefulWidget {
 
 class _ScoreChart extends State<ScoreChart> {
   List<double> scores = [6, 8, 10, 9, 5];
-  List<double> original = [];
 
   @override
   List<double> createAvg() {
@@ -74,7 +73,6 @@ class _ScoreChart extends State<ScoreChart> {
 
   void initState() {
     super.initState();
-    original = scores;
     for (var i = 0; i <= 3; i++) {
       scores = createAvg();
     }
@@ -102,7 +100,7 @@ class _ScoreChart extends State<ScoreChart> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      for (var i in scores)
+                      for (var i = 0; i < scores.length; i++)
                         Column(children: <Widget>[
                           Padding(
                               padding: EdgeInsets.all(0.5),
@@ -110,18 +108,18 @@ class _ScoreChart extends State<ScoreChart> {
                                 Container(
                                   color: Color.fromRGBO(0, 0, 0, 0),
                                   width: 4,
-                                  height: 300 - i * 30,
+                                  height: 300 - scores[i] * 30,
                                 ),
                                 Container(
-                                  color: Color.fromRGBO(50, (i * 25).toInt(),
-                                      255, original.contains(i) ? 1 : 0.2),
+                                  color: Color.fromRGBO(50, (scores[i] * 25).toInt(),
+                                      255, i%16==0 ? 1 : 0.2),
                                   width: 4,
-                                  height: i * 30,
+                                  height: scores[i] * 30,
                                 ),
                               ])),
                           Padding(
                             padding: EdgeInsets.only(top: 4),
-                          child: Text(original.contains(i) ? i.toString():""),
+                          child: Text(i%16==0 ? scores[i].toString():""),
                           )
                         ]
                         )
