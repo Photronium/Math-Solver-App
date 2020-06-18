@@ -3,7 +3,15 @@ import '../drawer.dart';
 
 const double padding = 25;
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _Dashboard();
+  }
+}
+
+class _Dashboard extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,23 +72,32 @@ class ScoreChart extends StatefulWidget {
 
 class _ScoreChart extends State<ScoreChart> {
   List<double> scores = [6, 8, 10, 9, 5];
-
+  List<double> chartValues;
+  int range = 5;
   @override
   List<double> createAvg() {
     List<double> result = [];
-    for (var i = 0; i <= scores.length - 2; i++) {
-      result.add(scores[i]);
-      result.add((scores[i] + scores[i + 1]) / 2);
+    for (var i = 0; i < chartValues.length - 1; i++) {
+      result.add(chartValues[i]);
+      result.add((chartValues[i] + chartValues[i + 1]) / 2);
     }
-    result.add(scores[scores.length - 1]);
+    result.add(chartValues[chartValues.length - 1]);
     return result;
+  }
+
+  void reDraw(int range){
+    chartValues = [];
+    for (var i = 0; i < range; i++) {
+      chartValues.add(scores[i]);
+    }
+    for (var i = 0; i <= 3; i++) {
+      chartValues = createAvg();
+    }
   }
 
   void initState() {
     super.initState();
-    for (var i = 0; i <= 3; i++) {
-      scores = createAvg();
-    }
+    reDraw(scores.length);
   }
 
   Widget build(BuildContext context) {
@@ -106,7 +123,7 @@ class _ScoreChart extends State<ScoreChart> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      for (var i = 0; i < scores.length; i++)
+                      for (var i = 0; i < chartValues.length; i++)
                         Column(children: <Widget>[
                           Padding(
                               padding: EdgeInsets.all(0.5),
@@ -114,22 +131,22 @@ class _ScoreChart extends State<ScoreChart> {
                                 Container(
                                   color: Color.fromRGBO(0, 0, 0, 0),
                                   width: 4,
-                                  height: 300 - scores[i] * 30,
+                                  height: 300 - chartValues[i] * 30,
                                 ),
                                 Container(
                                   color: Color.fromRGBO(
                                       50,
-                                      (scores[i] * 25).toInt(),
+                                      (chartValues[i] * 25).toInt(),
                                       255,
                                       i % 16 == 0 ? 1 : 0.2),
                                   width: 4,
-                                  height: scores[i] * 30,
+                                  height: chartValues[i] * 30,
                                 ),
                               ])),
                           Padding(
                             padding: EdgeInsets.only(top: 4),
                             child:
-                                Text(i % 16 == 0 ? scores[i].toString() : ""),
+                                Text(i % 16 == 0 ? chartValues[i].toString() : ""),
                           )
                         ])
                     ],
@@ -137,9 +154,14 @@ class _ScoreChart extends State<ScoreChart> {
                 ),
                 Text("See more about how your score is calculated →",
                     style: TextStyle(fontSize: 14.0)),
+                Text(chartValues.length.toString())
               ]),
           onPressed: () {
-            print("Simplex");
+            setState(() {
+              if (range == 5) range = 2;
+              else range = 5;
+              reDraw(range);
+            });
           },
         ));
   }
