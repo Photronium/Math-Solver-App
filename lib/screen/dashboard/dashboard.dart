@@ -37,10 +37,14 @@ class _Dashboard extends State<Dashboard> {
 class PerformanceScore extends StatelessWidget {
   var score = 8;
 
+  final Shader linearGradient = LinearGradient(
+    colors: <Color>[Colors.blue, Colors.greenAccent],
+  ).createShader(Rect.fromLTWH(0.0, 0.0, 120.0, 120.0));
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 350.0,
+        height: 320.0,
         child: FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
@@ -51,9 +55,17 @@ class PerformanceScore extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text("Performance Score", style: TextStyle(fontSize: 20.0)),
-                Text(score.toString(), style: TextStyle(fontSize: 80)),
-                Text("See more about how your score is calculated →",
-                    style: TextStyle(fontSize: 14.0)),
+                Padding(
+                  padding: EdgeInsets.only(top:10),
+                  child: Text(score.toString(), style: TextStyle(
+                      fontSize: 140.0,
+                      foreground: Paint()..shader = linearGradient),
+                )),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                child: Text("You're doing great, but we think you can go further!",
+                    style: TextStyle(fontSize: 16.0)),
+                ),
               ]),
           onPressed: () {
             print("Simplex");
@@ -74,6 +86,7 @@ class _ScoreChart extends State<ScoreChart> {
   List<double> scores = [6, 8, 10, 9, 5];
   List<double> chartValues;
   int range = 5;
+
   @override
   List<double> createAvg() {
     List<double> result = [];
@@ -85,11 +98,8 @@ class _ScoreChart extends State<ScoreChart> {
     return result;
   }
 
-  void reDraw(int range){
-    chartValues = [];
-    for (var i = 0; i < range; i++) {
-      chartValues.add(scores[i]);
-    }
+  void reDraw(List<double> array) {
+    chartValues = array;
     for (var i = 0; i <= 3; i++) {
       chartValues = createAvg();
     }
@@ -97,7 +107,7 @@ class _ScoreChart extends State<ScoreChart> {
 
   void initState() {
     super.initState();
-    reDraw(scores.length);
+    reDraw(scores);
   }
 
   Widget build(BuildContext context) {
@@ -145,22 +155,31 @@ class _ScoreChart extends State<ScoreChart> {
                               ])),
                           Padding(
                             padding: EdgeInsets.only(top: 4),
-                            child:
-                                Text(i % 16 == 0 ? chartValues[i].toString() : ""),
+                            child: Text(
+                                i % 16 == 0 ? chartValues[i].toString() : ""),
                           )
                         ])
                     ],
                   ),
                 ),
-                Text("See more about how your score is calculated →",
-                    style: TextStyle(fontSize: 14.0)),
-                Text(chartValues.length.toString())
+                Text(
+                  "Last Month",
+                  style: TextStyle(fontSize: 14.0),
+                ),
               ]),
           onPressed: () {
+            for (var i = 0; i < scores.length; i++) {
+              if (scores[i] == 10)
+                scores[i] = 0;
+              else
+                scores[i] += 1;
+            }
             setState(() {
-              if (range == 5) range = 2;
-              else range = 5;
-              reDraw(range);
+              if (range == 5)
+                range = 2;
+              else
+                range = 5;
+              reDraw(scores);
             });
           },
         ));
@@ -203,46 +222,46 @@ class _PerformanceHistory extends State<PerformanceHistory> {
                   child: Text("Performance History",
                       style: TextStyle(fontSize: 20.0)),
                 ),
-                  Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Container(
-                            color: Color.fromRGBO(
-                                50, (average * 25).toInt(), 255, 1),
-                            width: average * 25,
-                            height: 20,
-                          ),
+                Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Container(
+                          color: Color.fromRGBO(
+                              50, (average * 25).toInt(), 255, 1),
+                          width: average * 25,
+                          height: 20,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Container(
-                            color: Color.fromRGBO(
-                                50, (oldAverage * 25).toInt(), 255, 1),
-                            width: oldAverage * 25,
-                            height: 20,
-                          ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Container(
+                          color: Color.fromRGBO(
+                              50, (oldAverage * 25).toInt(), 255, 1),
+                          width: oldAverage * 25,
+                          height: 20,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 26),
-                        child: Row(children: <Widget>[
-                          Text("You performed ",
-                              style: TextStyle(fontSize: 16.0)),
-                          Text((100 * difference).toInt().toString(),
-                              style: TextStyle(fontSize: 19.0)),
-                          Text(difference > 0 ? "% better" : "% worse",
-                              style: TextStyle(fontSize: 16.0)),
-                          Text(" than before", style: TextStyle(fontSize: 16.0))
-                        ]),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 26),
+                      child: Row(children: <Widget>[
+                        Text("You performed ",
+                            style: TextStyle(fontSize: 16.0)),
+                        Text((100 * difference).toInt().toString(),
+                            style: TextStyle(fontSize: 19.0)),
+                        Text(difference > 0 ? "% better" : "% worse",
+                            style: TextStyle(fontSize: 16.0)),
+                        Text(" than before", style: TextStyle(fontSize: 16.0))
+                      ]),
+                    ),
+                  ],
+                ),
               ]),
           onPressed: () {
             print("Simplex");
