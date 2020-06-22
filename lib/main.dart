@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screen/problem_solving/problem_solving_screen.dart';
+import 'screen/problem_solving/ps_1_method.dart';
 
 const backgroundMainColor = Color(0xFFF2F2F2);
 

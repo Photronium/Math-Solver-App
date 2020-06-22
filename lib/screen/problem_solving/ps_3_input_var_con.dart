@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:numbercrunching/screen/problem_solving/result.dart';
+import 'package:numbercrunching/screen/problem_solving/ps_4_result.dart';
 
 import '../drawer.dart';
 import 'bottom_button.dart';
