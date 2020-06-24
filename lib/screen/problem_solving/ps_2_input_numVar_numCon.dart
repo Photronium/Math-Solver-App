@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../drawer.dart';
 import 'bottom_button.dart';
-import 'simplex_solve.dart';
-import 'input_constraint.dart';
+import 'simplex_solver.dart';
+import 'ps_3_input_var_con.dart';
 
 class InputConstraintVariable extends StatefulWidget {
   @override
@@ -18,6 +18,7 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text('Problem Solving',
             style: TextStyle(fontWeight: FontWeight.w300)),
@@ -34,14 +35,15 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text('Number of variables'),
+                  child: Text('NUMBER OF VARIABLES', style: TextStyle(color: Colors.black87)),
                 ),
                 TextFormField(
                   autofocus: true,
                   decoration: InputDecoration(
-                    hintText: '0-10',
-                    errorText: warnVariable ? 'The input number must be in range 0 - 10' : null,
+                    hintText: '2-5',
+                    errorText: warnVariable ? 'The input number must be in range 2 - 5' : null,
                     fillColor: Colors.white,
+                    filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     ),
@@ -51,17 +53,8 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                     WhitelistingTextInputFormatter.digitsOnly,
                     BlacklistingTextInputFormatter.singleLineFormatter
                   ],
-                  validator: (val) {
-                    var valInt = int.parse(val);
-                    if (valInt <= 0 || valInt > 10) {
-                      return "The input number must be in range 0-10";
-                    }
-                    else {
-                      return null;
-                    }
-                  },
                   onChanged: (val) {
-                    if (val.length >= 2) {
+                    if (val.length >= 1) {
                       FocusScope.of(context).requestFocus(FocusNode());
                     }
                   },
@@ -70,13 +63,15 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                 SizedBox(height: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text('Number of variables'),
+                  child: Text('NUMBER OF CONSTRAINTS', style: TextStyle(color: Colors.black87)),
                 ),
                 TextField(
                   autofocus: true,
                   decoration: InputDecoration(
-                    hintText: '0-10',
-                    errorText: warnConstraints ? 'The input number must be in range 0 - 10' : null,
+                    hintText: '2-10',
+                    errorText: warnConstraints ? 'The input number must be in range 2 - 10' : null,
+                    fillColor: Colors.white,
+                    filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     ),
@@ -106,13 +101,13 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                 child: BottomNextButton(onPressed: () {
                   var varInt = int.parse(variableController.text);
                   var conInt = int.parse(constraintController.text);
-                  if(varInt > 0 && varInt <= 20 && conInt > 0 && conInt <= 20) {
+                  if(varInt >= 2 && varInt <= 5 && conInt >= 2 && conInt <= 10) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => InputConstraint()));
                   }
                   else {
-                    if(varInt <= 0 || varInt > 20){
+                    if(varInt <= 2 || varInt > 5){
                       setState(() {
                         warnVariable = true;
                       });
@@ -122,7 +117,7 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                         warnVariable = false;
                       });
                     }
-                    if(conInt <= 0 || conInt > 20){
+                    if(conInt <= 2 || conInt > 10){
                       setState(() {
                         warnConstraints = true;
                       });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../drawer.dart';
 
-class InputConstraint extends StatelessWidget {
+class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +11,7 @@ class InputConstraint extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: DrawTab(),
-      body: Container(),
+      body: Container(child: Text("This is the result page")),
     );
   }
 }
