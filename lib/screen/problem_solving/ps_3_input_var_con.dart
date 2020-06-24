@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:numbercrunching/screen/problem_solving/result.dart';
+import 'package:numbercrunching/screen/problem_solving/ps_4_result.dart';
 
 import '../drawer.dart';
 import 'bottom_button.dart';
@@ -22,7 +22,8 @@ class _InputConstraintState extends State<InputConstraint> {
       String temp = "X${i+1}";
       if(i+1 != int.parse(variableController.text))
         temp += " + ";
-      equationInput.add(Expanded(child: NumberInputField()));
+      equationController.add(TextEditingController());
+      equationInput.add(Expanded(child: NumberInputField(controller: equationController[i])));
       equationInput.add(Expanded(child: Center(child: Text(temp))));
     }
   }
@@ -31,15 +32,18 @@ class _InputConstraintState extends State<InputConstraint> {
     constraintInput.clear();
     for (var i = 0; i < int.parse(constraintController.text); i++) {
       List<Widget> constraint = [];
+      conditionController.add([]);
       for (var j = 0; j < int.parse(variableController.text); j++) {
         String temp = "X${j+1}";
         if(j+1 != int.parse(variableController.text))
           temp += " + ";
-        constraint.add(Expanded(child: NumberInputField()));
+        conditionController[i].add(TextEditingController());
+        constraint.add(Expanded(child: NumberInputField(controller: conditionController[i][j])));
         constraint.add(Expanded(child: Center(child: Text(temp))));
       }
       constraint.add(Expanded(child: Center(child: Text("<="))));
-      constraint.add(Expanded(child: NumberInputField()));
+      conditionController[i].add(TextEditingController());
+      constraint.add(Expanded(child: NumberInputField(controller: conditionController[i][int.parse(variableController.text)])));
       constraintInput.add(Row(children: constraint));
       constraintInput.add(SizedBox(height: 10.0));
     }

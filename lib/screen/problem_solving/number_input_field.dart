@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NumberInputField extends StatelessWidget {
+  NumberInputField({this.controller});
+  final controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,6 +28,7 @@ class NumberInputField extends StatelessWidget {
             FocusScope.of(context).requestFocus(FocusNode());
           }
         },
+        controller: controller,
       ),
     );
   }
