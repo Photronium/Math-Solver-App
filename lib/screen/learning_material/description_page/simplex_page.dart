@@ -22,6 +22,16 @@ class SimplexLearningPageState extends State<SimplexLearningPage> {
     Container(
       padding: const EdgeInsets.all(20.0),
       child: new Text(
+        'This is solution page',
+        style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w300,
+        ),
+      ),
+    ),
+    Container(
+      padding: const EdgeInsets.all(20.0),
+      child: new Text(
         'This is example page',
         style: TextStyle(
           fontSize: 18.0,
@@ -33,16 +43,6 @@ class SimplexLearningPageState extends State<SimplexLearningPage> {
       padding: const EdgeInsets.all(20.0),
       child: new Text(
         'This is feedback page',
-        style: TextStyle(
-          fontSize: 18.0,
-          fontWeight: FontWeight.w300,
-        ),
-      ),
-    ),
-    Container(
-      padding: const EdgeInsets.all(20.0),
-      child: new Text(
-        'This is solution page',
         style: TextStyle(
           fontSize: 18.0,
           fontWeight: FontWeight.w300,
