@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'problem_solving/problem_solving_screen.dart';
+import '../screen/problem_solving/ps_1_method.dart';
 import '../screen/learning_material/learning_material.dart';
 import '../screen/dashboard/dashboard.dart';
 

@@ -28,7 +28,8 @@ class _Dashboard extends State<Dashboard> {
           children: <Widget>[
             PerformanceScore(),
             ScoreChart(),
-            PerformanceHistory()
+            PerformanceHistory(),
+            SmartSuggestion()
           ],
         ));
   }
@@ -56,15 +57,18 @@ class PerformanceScore extends StatelessWidget {
               children: <Widget>[
                 Text("Performance Score", style: TextStyle(fontSize: 20.0)),
                 Padding(
-                  padding: EdgeInsets.only(top:10),
-                  child: Text(score.toString(), style: TextStyle(
-                      fontSize: 140.0,
-                      foreground: Paint()..shader = linearGradient),
-                )),
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      score.toString(),
+                      style: TextStyle(
+                          fontSize: 140.0,
+                          foreground: Paint()..shader = linearGradient),
+                    )),
                 Padding(
                   padding: EdgeInsets.all(10),
-                child: Text("You're doing great, but we think you can go further!",
-                    style: TextStyle(fontSize: 16.0)),
+                  child: Text(
+                      "You're doing great, but we think you can go further!",
+                      style: TextStyle(fontSize: 16.0)),
                 ),
               ]),
           onPressed: () {
@@ -260,6 +264,74 @@ class _PerformanceHistory extends State<PerformanceHistory> {
                         Text(" than before", style: TextStyle(fontSize: 16.0))
                       ]),
                     ),
+                  ],
+                ),
+              ]),
+          onPressed: () {
+            print("Simplex");
+          },
+        ));
+  }
+}
+
+class SmartSuggestion extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _SmartSuggestion();
+  }
+}
+
+class _SmartSuggestion extends State<SmartSuggestion> {
+  double average = 8;
+  double oldAverage = 6.5;
+  double difference = 0;
+
+  void initState() {
+    super.initState();
+    difference = average / oldAverage - 1;
+  }
+
+  Widget build(BuildContext context) {
+    return Container(
+        height: 250.0,
+        padding: EdgeInsets.only(top: padding),
+        child: FlatButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          color: Colors.white,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Text("Smart Suggestion",
+                      style: TextStyle(fontSize: 20.0)),
+                ),
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 26),
+                      child: Row(children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              "• You should try improving calculation time",
+                              style: TextStyle(fontSize: 16.0)),
+                        ),
+                      ]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 26),
+                      child: Row(children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              "• You left many answers blank in Simplex Method test. Try studying again and remember carefully.",
+                              style: TextStyle(fontSize: 16.0)),
+                        ),
+                      ]),
+                    )
                   ],
                 ),
               ]),
