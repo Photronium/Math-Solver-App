@@ -341,17 +341,7 @@ class _ScorePredictor extends State<ScorePredictor> {
                       child: Row(children: <Widget>[
                         Flexible(
                           child: Text(
-                              "• You should try improving calculation time",
-                              style: TextStyle(fontSize: 16.0)),
-                        ),
-                      ]),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 26),
-                      child: Row(children: <Widget>[
-                        Flexible(
-                          child: Text(
-                              "• You left many answers blank in Simplex Method test. Try studying again and remember carefully.",
+                              "We think you next test score will be 9.5. Don't let this affect your actual result.",
                               style: TextStyle(fontSize: 16.0)),
                         ),
                       ]),
