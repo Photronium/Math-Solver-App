@@ -3,6 +3,39 @@ import '../drawer.dart';
 
 const double padding = 25;
 
+class DataReader{
+  int type = 1;
+  List<double> allTime = [];
+  List<double> lastYear = [];
+  List<double> lastMonth = [];
+  List<double> lastWeek = [];
+
+
+  void updateScore(){
+    this.allTime = [4.5,8.5,3.5,9.6,3.3,10];
+    this.lastYear = [4.5,8.5,3.5,9.6,3.3];
+    this.lastMonth = [4.5,8.5,3.5,9.6];
+    this.lastWeek = [4.5,8.5,3.5];
+  }
+
+  List<double> getScore(){
+    updateScore();
+    if (type == 1) return allTime;
+    if (type == 2) return lastYear;
+    if (type == 3) return lastMonth;
+    if (type == 4) return lastWeek;
+  }
+
+  double getAverage(){
+    List<double> array = getScore();
+    double total = 0;
+    for (var i = 0; i < array.length; i++) {
+      total += array[i];
+    }
+    return total/array.length;
+  }
+}
+
 class Dashboard extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -29,14 +62,14 @@ class _Dashboard extends State<Dashboard> {
             PerformanceScore(),
             ScoreChart(),
             PerformanceHistory(),
-            SmartSuggestion()
+            ScorePredictor()
           ],
         ));
   }
 }
 
 class PerformanceScore extends StatelessWidget {
-  var score = 8;
+  DataReader userData = DataReader();
 
   final Shader linearGradient = LinearGradient(
     colors: <Color>[Colors.blue, Colors.greenAccent],
@@ -59,7 +92,7 @@ class PerformanceScore extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: Text(
-                      score.toString(),
+                      userData.getAverage().toStringAsFixed(2),
                       style: TextStyle(
                           fontSize: 140.0,
                           foreground: Paint()..shader = linearGradient),
@@ -87,9 +120,8 @@ class ScoreChart extends StatefulWidget {
 }
 
 class _ScoreChart extends State<ScoreChart> {
-  List<double> scores = [6, 8, 10, 9, 5];
+  DataReader userData = DataReader();
   List<double> chartValues;
-  int range = 5;
 
   @override
   List<double> createAvg() {
@@ -111,7 +143,7 @@ class _ScoreChart extends State<ScoreChart> {
 
   void initState() {
     super.initState();
-    reDraw(scores);
+    reDraw(userData.getScore());
   }
 
   Widget build(BuildContext context) {
@@ -172,18 +204,10 @@ class _ScoreChart extends State<ScoreChart> {
                 ),
               ]),
           onPressed: () {
-            for (var i = 0; i < scores.length; i++) {
-              if (scores[i] == 10)
-                scores[i] = 0;
-              else
-                scores[i] += 1;
-            }
+              if (userData.type == 4) userData.type = 1;
+              else userData.type += 1;
             setState(() {
-              if (range == 5)
-                range = 2;
-              else
-                range = 5;
-              reDraw(scores);
+              reDraw(userData.getScore());
             });
           },
         ));
@@ -274,15 +298,15 @@ class _PerformanceHistory extends State<PerformanceHistory> {
   }
 }
 
-class SmartSuggestion extends StatefulWidget {
+class ScorePredictor extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _SmartSuggestion();
+    return _ScorePredictor();
   }
 }
 
-class _SmartSuggestion extends State<SmartSuggestion> {
+class _ScorePredictor extends State<ScorePredictor> {
   double average = 8;
   double oldAverage = 6.5;
   double difference = 0;
@@ -307,7 +331,7 @@ class _SmartSuggestion extends State<SmartSuggestion> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(bottom: 20),
-                  child: Text("Smart Suggestion",
+                  child: Text("The Future",
                       style: TextStyle(fontSize: 20.0)),
                 ),
                 Column(
