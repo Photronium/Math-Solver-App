@@ -4,7 +4,7 @@ import '../drawer.dart';
 const double padding = 25;
 
 class DataReader{
-  int type = 1;
+  String defaultt = "All Time";
   List<double> allTime = [];
   List<double> lastYear = [];
   List<double> lastMonth = [];
@@ -13,26 +13,45 @@ class DataReader{
 
   void updateScore(){
     this.allTime = [4.5,8.5,3.5,9.6,3.3,10];
-    this.lastYear = [4.5,8.5,3.5,9.6,3.3];
-    this.lastMonth = [4.5,8.5,3.5,9.6];
-    this.lastWeek = [4.5,8.5,3.5];
+    this.lastYear = [8.5,3.5,9.6,3.3,10];
+    this.lastMonth = [3.5,9.6,3.3,10];
+    this.lastWeek = [9.6,3.3,10];
   }
 
   List<double> getScore(){
     updateScore();
-    if (type == 1) return allTime;
-    if (type == 2) return lastYear;
-    if (type == 3) return lastMonth;
-    if (type == 4) return lastWeek;
+    if (defaultt == "All Time") return allTime;
+    if (defaultt == "Last Year") return lastYear;
+    if (defaultt == "Last Month") return lastMonth;
+    if (defaultt == "Last Week") return lastWeek;
+  }
+
+  List<double> getSpecificScore(String type){
+    updateScore();
+    if (type == "All Time") return allTime;
+    if (type == "Last Year") return lastYear;
+    if (type == "Last Month") return lastMonth;
+    if (type == "Last Week") return lastWeek;
   }
 
   double getAverage(){
     List<double> array = getScore();
+    return getSpecificAverage(array);
+  }
+
+  double getSpecificAverage(List<double> array){
     double total = 0;
     for (var i = 0; i < array.length; i++) {
       total += array[i];
     }
     return total/array.length;
+  }
+
+  void switchMode(){
+    if (defaultt == "All Time") defaultt = "Last Year";
+    else if (defaultt == "Last Year") defaultt = "Last Month";
+    else if (defaultt == "Last Month") defaultt = "Last Week";
+    else if (defaultt == "Last Week") defaultt = "All Time";
   }
 }
 
@@ -199,14 +218,13 @@ class _ScoreChart extends State<ScoreChart> {
                   ),
                 ),
                 Text(
-                  "Last Month",
+                  userData.defaultt,
                   style: TextStyle(fontSize: 14.0),
                 ),
               ]),
           onPressed: () {
-              if (userData.type == 4) userData.type = 1;
-              else userData.type += 1;
             setState(() {
+              userData.switchMode();
               reDraw(userData.getScore());
             });
           },
@@ -223,12 +241,21 @@ class PerformanceHistory extends StatefulWidget {
 }
 
 class _PerformanceHistory extends State<PerformanceHistory> {
+  DataReader userData = DataReader();
   double average = 8;
   double oldAverage = 6.5;
   double difference = 0;
 
   void initState() {
     super.initState();
+    calculate();
+  }
+
+  void calculate(){
+    average = userData.getAverage();
+    List<double> oldData = userData.getScore();
+    oldData.removeLast();
+    oldAverage = userData.getSpecificAverage(oldData);
     difference = average / oldAverage - 1;
   }
 
