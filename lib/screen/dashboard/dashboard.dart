@@ -3,22 +3,21 @@ import '../drawer.dart';
 
 const double padding = 25;
 
-class DataReader{
+class DataReader {
   String defaultt = "All Time";
   List<double> allTime = [];
   List<double> lastYear = [];
   List<double> lastMonth = [];
   List<double> lastWeek = [];
 
-
-  void updateScore(){
-    this.allTime = [4.5,8.5,3.5,9.6,3.3,10];
-    this.lastYear = [8.5,3.5,9.6,3.3,10];
-    this.lastMonth = [3.5,9.6,3.3,10];
-    this.lastWeek = [9.6,3.3,10];
+  void updateScore() {
+    this.allTime = [4.5, 8.5, 3.5, 9.6, 3.3, 10];
+    this.lastYear = [8.5, 3.5, 9.6, 3.3, 10];
+    this.lastMonth = [3.5, 9.6, 3.3, 10];
+    this.lastWeek = [9.6, 3.3, 10];
   }
 
-  List<double> getScore(){
+  List<double> getScore() {
     updateScore();
     if (defaultt == "All Time") return allTime;
     if (defaultt == "Last Year") return lastYear;
@@ -26,7 +25,7 @@ class DataReader{
     if (defaultt == "Last Week") return lastWeek;
   }
 
-  List<double> getSpecificScore(String type){
+  List<double> getSpecificScore(String type) {
     updateScore();
     if (type == "All Time") return allTime;
     if (type == "Last Year") return lastYear;
@@ -34,23 +33,26 @@ class DataReader{
     if (type == "Last Week") return lastWeek;
   }
 
-  double getAverage(){
+  double getAverage() {
     List<double> array = getScore();
     return getSpecificAverage(array);
   }
 
-  double getSpecificAverage(List<double> array){
+  double getSpecificAverage(List<double> array) {
     double total = 0;
     for (var i = 0; i < array.length; i++) {
       total += array[i];
     }
-    return total/array.length;
+    return total / array.length;
   }
 
-  void switchMode(){
-    if (defaultt == "All Time") defaultt = "Last Year";
-    else if (defaultt == "Last Year") defaultt = "Last Month";
-    else if (defaultt == "Last Month") defaultt = "Last Week";
+  void switchMode() {
+    if (defaultt == "All Time")
+      defaultt = "Last Year";
+    else if (defaultt == "Last Year")
+      defaultt = "Last Month";
+    else if (defaultt == "Last Month")
+      defaultt = "Last Week";
     else if (defaultt == "Last Week") defaultt = "All Time";
   }
 }
@@ -87,7 +89,15 @@ class _Dashboard extends State<Dashboard> {
   }
 }
 
-class PerformanceScore extends StatelessWidget {
+class PerformanceScore extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _PerformanceScore();
+  }
+}
+
+class _PerformanceScore extends State<PerformanceScore> {
   DataReader userData = DataReader();
 
   final Shader linearGradient = LinearGradient(
@@ -117,6 +127,14 @@ class PerformanceScore extends StatelessWidget {
                           foreground: Paint()..shader = linearGradient),
                     )),
                 Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Text(
+                      userData.defaultt,
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          foreground: Paint()..shader = linearGradient),
+                    )),
+                Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
                       "You're doing great, but we think you can go further!",
@@ -124,7 +142,9 @@ class PerformanceScore extends StatelessWidget {
                 ),
               ]),
           onPressed: () {
-            print("Simplex");
+            setState(() {
+              userData.switchMode();
+            });
           },
         ));
   }
@@ -251,7 +271,7 @@ class _PerformanceHistory extends State<PerformanceHistory> {
     calculate();
   }
 
-  void calculate(){
+  void calculate() {
     average = userData.getAverage();
     List<double> oldData = userData.getScore();
     oldData.removeLast();
@@ -358,8 +378,7 @@ class _ScorePredictor extends State<ScorePredictor> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(bottom: 20),
-                  child: Text("The Future",
-                      style: TextStyle(fontSize: 20.0)),
+                  child: Text("The Future", style: TextStyle(fontSize: 20.0)),
                 ),
                 Column(
                   children: <Widget>[
