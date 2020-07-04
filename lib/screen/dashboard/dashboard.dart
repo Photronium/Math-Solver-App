@@ -378,19 +378,24 @@ class _ScorePredictor extends State<ScorePredictor> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(bottom: 20),
-                  child: Text("The Future", style: TextStyle(fontSize: 20.0)),
+                  child: Text("Time Travel", style: TextStyle(fontSize: 20.0)),
                 ),
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 26),
-                      child: Row(children: <Widget>[
+                      padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                              "Hey there!",
+                              style: TextStyle(fontSize: 40.0)),
+                        ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 18),
+                      child:
                         Flexible(
                           child: Text(
-                              "We think you next test score will be 9.5. Don't let this affect your actual result.",
+                              "Want a sneak peak of the future?",
                               style: TextStyle(fontSize: 16.0)),
                         ),
-                      ]),
                     )
                   ],
                 ),
