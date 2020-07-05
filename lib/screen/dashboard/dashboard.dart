@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../drawer.dart';
+import 'dart:math';
 
 const double padding = 25;
 
 class DataReader {
+  TheOracle oracle = TheOracle();
   String defaultt = "All Time";
   List<double> allTime = [];
   List<double> lastYear = [];
@@ -11,7 +13,7 @@ class DataReader {
   List<double> lastWeek = [];
 
   void updateScore() {
-    this.allTime = [4.5, 8.5, 3.5, 9.6, 3.3, 10];
+    this.allTime = [4.5, 8.5, 3.5, 9.6, 3.3, 10,9,8,7,8,9];
     this.lastYear = [8.5, 3.5, 9.6, 3.3, 10];
     this.lastMonth = [3.5, 9.6, 3.3, 10];
     this.lastWeek = [9.6, 3.3, 10];
@@ -54,6 +56,103 @@ class DataReader {
     else if (defaultt == "Last Month")
       defaultt = "Last Week";
     else if (defaultt == "Last Week") defaultt = "All Time";
+  }
+
+  double predict() {
+    updateScore();
+    return oracle.predict(allTime);
+  }
+}
+
+class TheOracle {
+  double predict(List<double> data) {
+    double first = Regressor(data, 4);
+    double second = Regressor(data, 3);
+    if ((first - data[data.length-1]).abs() > (second - data[data.length-1]).abs()) return second;
+    else return first;
+  }
+
+  double Regressor(List<double> data, int degree) {
+    //Polynomial Fit
+    int pairs = data.length;
+    List<double> x = List(pairs);
+    List<double> y = List(pairs);
+    for (int i = 0; i < pairs; i++) {
+      x[i] = (i + 1).toDouble();
+    }
+    for (int i = 0; i < pairs; i++) {
+      y[i] = data[i];
+    }
+    List<double> X = List(2 * degree +
+        1); //Array that will store the values of sigma(xi),sigma(xi^2),sigma(xi^3)....sigma(xi^2n)
+    for (int i = 0; i < 2 * degree + 1; i++) {
+      X[i] = 0;
+      for (int j = 0; j < pairs; j++)
+        X[i] = X[i] +
+            pow(x[j],
+                i); //consecutive positions of the array will store N,sigma(xi),sigma(xi^2),sigma(xi^3)....sigma(xi^2n)
+    }
+    List<List<double>> B =
+        List.generate(degree + 1, (i) => List(degree + 2), growable: false);
+    List<double> a = List(degree +
+        1); //B is the Normal matrix(augmented) that will store the equations, 'a' is for value of the final coefficients
+    for (int i = 0; i < a.length; i++) a[i] = 0; // initialize a
+    for (int i = 0; i <= degree; i++)
+      for (int j = 0; j <= degree; j++)
+        B[i][j] = X[i +
+            j]; //Build the Normal matrix by storing the corresponding coefficients at the right positions except the last column of the matrix
+    List<double> Y = List(degree +
+        1); //Array to store the values of sigma(yi),sigma(xi*yi),sigma(xi^2*yi)...sigma(xi^n*yi)
+    for (int i = 0; i < degree + 1; i++) {
+      Y[i] = 0;
+      for (int j = 0; j < pairs; j++)
+        Y[i] = Y[i] +
+            pow(x[j], i) *
+                y[j]; //consecutive positions will store sigma(yi),sigma(xi*yi),sigma(xi^2*yi)...sigma(xi^n*yi)
+    }
+    for (int i = 0; i <= degree; i++)
+      B[i][degree + 1] = Y[
+          i]; //load the values of Y as the last column of B(Normal Matrix but augmented)
+    degree = degree +
+        1; //n is made n+1 because the Gaussian Elimination part below was for n equations, but here n is the degree of polynomial and for n degree we get n+1 equations
+    for (int i = 0;
+        i < degree;
+        i++) //From now Gaussian Elimination starts(can be ignored) to solve the set of linear equations (Pivotisation)
+      for (int k = i + 1; k < degree; k++)
+        if (B[i][i] < B[k][i])
+          for (int j = 0; j <= degree; j++) {
+            double temp = B[i][j];
+            B[i][j] = B[k][j];
+            B[k][j] = temp;
+          }
+
+    for (int i = 0; i < degree - 1; i++) //loop to perform the gauss elimination
+      for (int k = i + 1; k < degree; k++) {
+        double t = B[k][i] / B[i][i];
+        for (int j = 0; j <= degree; j++)
+          B[k][j] = B[k][j] -
+              t *
+                  B[i][
+                      j]; //make the elements below the pivot elements equal to zero or elimnate the variables
+      }
+    for (int i = degree - 1; i >= 0; i--) //back-substitution
+    {
+      //x is an array whose values correspond to the values of x,y,z..
+      a[i] = B[i][
+          degree]; //make the variable to be calculated equal to the rhs of the last equation
+      for (int j = 0; j < degree; j++)
+        if (j !=
+            i) //then subtract all the lhs values except the coefficient of the variable whose value                                   is being calculated
+          a[i] = a[i] - B[i][j] * a[j];
+      a[i] = a[i] /
+          B[i][
+              i]; //now finally divide the rhs by the coefficient of the variable to be calculated
+    }
+    double result = 0;
+    for (int i = 0; i < degree; i++) result += a[i] * pow(pairs + 1, i);
+    if (result > 10) result = 10;
+    if (result < 0) result = 0;
+    return result;
   }
 }
 
@@ -354,16 +453,56 @@ class ScorePredictor extends StatefulWidget {
 }
 
 class _ScorePredictor extends State<ScorePredictor> {
-  double average = 8;
-  double oldAverage = 6.5;
-  double difference = 0;
+  bool showFuture = false;
+  DataReader userData = DataReader();
 
-  void initState() {
-    super.initState();
-    difference = average / oldAverage - 1;
-  }
+  var Blocked = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(bottom: 20),
+          child: Text("Time Travel", style: TextStyle(fontSize: 20.0)),
+        ),
+        Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text("Hey there!", style: TextStyle(fontSize: 40.0)),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 18),
+              child: Text("Want a sneak peak of the future?",
+                  style: TextStyle(fontSize: 16.0)),
+            )
+          ],
+        )
+      ]);
 
   Widget build(BuildContext context) {
+    var Unblocked = Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: Text("Time Travel", style: TextStyle(fontSize: 20.0)),
+          ),
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(userData.predict().toStringAsFixed(2), style: TextStyle(fontSize: 40.0)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 18),
+                child: Text("Don't let this affect your actual result",
+                    style: TextStyle(fontSize: 16.0)),
+              )
+            ],
+          )
+        ]);
+
     return Container(
         height: 250.0,
         padding: EdgeInsets.only(top: padding),
@@ -372,36 +511,11 @@ class _ScorePredictor extends State<ScorePredictor> {
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text("Time Travel", style: TextStyle(fontSize: 20.0)),
-                ),
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                              "Hey there!",
-                              style: TextStyle(fontSize: 40.0)),
-                        ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 18),
-                      child:
-                        Flexible(
-                          child: Text(
-                              "Want a sneak peak of the future?",
-                              style: TextStyle(fontSize: 16.0)),
-                        ),
-                    )
-                  ],
-                ),
-              ]),
+          child: showFuture ? Unblocked:Blocked,
           onPressed: () {
-            print("Simplex");
+            setState(() {
+              showFuture = true;
+            });
           },
         ));
   }
