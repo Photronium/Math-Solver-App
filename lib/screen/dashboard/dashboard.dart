@@ -65,14 +65,17 @@ class DataReader {
 }
 
 class TheOracle {
+  List<double> trainedData = [];
+  List<double> cubic = [];
+  List<double> quartic = [];
   double predict(List<double> data) {
-    double first = Regressor(data, 4);
-    double second = Regressor(data, 3);
+    double first = calculate(data, cubic);
+    double second = calculate(data, quartic);
     if ((first - data[data.length-1]).abs() > (second - data[data.length-1]).abs()) return second;
     else return first;
   }
 
-  double Regressor(List<double> data, int degree) {
+  List<double> Regressor(List<double> data, int degree) {
     //Polynomial Fit
     int pairs = data.length;
     List<double> x = List(pairs);
@@ -148,8 +151,20 @@ class TheOracle {
           B[i][
               i]; //now finally divide the rhs by the coefficient of the variable to be calculated
     }
+    return a;
+  }
+
+  void train(List<double> data){
+    cubic = Regressor(data, 3);
+    quartic = Regressor(data, 4);
+    trainedData = data;
+  }
+
+  double calculate(List<double>data, List<double> model){
+    if (data != trainedData) train(data);
+
     double result = 0;
-    for (int i = 0; i < degree; i++) result += a[i] * pow(pairs + 1, i);
+    for (int i = 0; i < model.length; i++) result += model[i] * pow(data.length + 1, i);
     if (result > 10) result = 10;
     if (result < 0) result = 0;
     return result;
