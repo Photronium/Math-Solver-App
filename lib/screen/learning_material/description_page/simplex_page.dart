@@ -1,4 +1,3 @@
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutter/material.dart';
 import '../../drawer.dart';
 
