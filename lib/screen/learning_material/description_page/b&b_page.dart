@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../drawer.dart';
+import '../methods.dart';
 const backgroundMainColor = Color(0xFFF2F2F2);
 
 class BBLearningPageState extends State<BBLearningPage>{
@@ -14,6 +15,7 @@ class BBLearningPageState extends State<BBLearningPage>{
         ),
         centerTitle: true,
       ),
+      body: DetailedDescription(method: 'Branch and Bound'),
       drawer: DrawTab(),
     );
   }

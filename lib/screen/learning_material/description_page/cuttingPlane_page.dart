@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../drawer.dart';
+import '../methods.dart';
 const backgroundMainColor = Color(0xFFF2F2F2);
 
 class CuttingPlaneLearningPageState extends State<CuttingPlaneLearningPage>{
@@ -14,6 +15,7 @@ class CuttingPlaneLearningPageState extends State<CuttingPlaneLearningPage>{
         ),
         centerTitle: true,
       ),
+      body: DetailedDescription(method: 'Cutting Plane'),
       drawer: DrawTab(),
     );
   }
