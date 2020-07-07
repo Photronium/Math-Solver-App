@@ -62,18 +62,47 @@ class DataReader {
     updateScore();
     return oracle.predict(allTime);
   }
+
+  List<double> predictGraph(){
+    return oracle.graph(allTime);
+  }
+
 }
 
 class TheOracle {
   List<double> trainedData = [];
   List<double> cubic = [];
   List<double> quartic = [];
+  int bestModelValue = 4;
+
   double predict(List<double> data) {
-    double first = calculate(data, cubic);
-    double second = calculate(data, quartic);
-    if ((first - data[data.length-1]).abs() > (second - data[data.length-1]).abs()) return second;
-    else return first;
+    if (data != trainedData) train(data);
+    return calculate(data, bestModel());
   }
+
+  List<double> graph(List<double> data){
+    if (data != trainedData) train(data);
+
+    List<double> result = [];
+    double temp;
+    double x;
+    for (int i = 0; i < 20; i++) {
+      for (int s = 0; s < 4; s++) {
+        temp = 0;
+        x = i + 0.25*s;
+        for (int j = 0; j < bestModel().length; j++) {
+          temp += bestModel()[j] * pow(x + 1, j);
+        }
+        if (temp < 0) temp = 0;
+        result.add(temp);
+      }
+    }
+
+    double compress = 10/result.reduce(max);
+    for(int i = 0; i < result.length; i++) result[i] = result[i]*compress;
+
+      return result;
+    }
 
   List<double> Regressor(List<double> data, int degree) {
     //Polynomial Fit
@@ -158,6 +187,11 @@ class TheOracle {
     cubic = Regressor(data, 3);
     quartic = Regressor(data, 4);
     trainedData = data;
+
+    double first = calculate(data, cubic);
+    double second = calculate(data, quartic);
+    if ((first - data[data.length-1]).abs() > (second - data[data.length-1]).abs()) bestModelValue = 4;
+    else bestModelValue = 3;
   }
 
   double calculate(List<double>data, List<double> model){
@@ -168,6 +202,13 @@ class TheOracle {
     if (result > 10) result = 10;
     if (result < 0) result = 0;
     return result;
+  }
+
+  List<double> bestModel() {
+    if (bestModelValue == 3)
+      return cubic;
+    else
+      return quartic;
   }
 }
 
@@ -263,6 +304,7 @@ class _PerformanceScore extends State<PerformanceScore> {
         ));
   }
 }
+
 
 class ScoreChart extends StatefulWidget {
   @override
@@ -376,8 +418,8 @@ class PerformanceHistory extends StatefulWidget {
 
 class _PerformanceHistory extends State<PerformanceHistory> {
   DataReader userData = DataReader();
-  double average = 8;
-  double oldAverage = 6.5;
+  double average = 0;
+  double oldAverage = 0;
   double difference = 0;
 
   void initState() {
@@ -469,6 +511,8 @@ class ScorePredictor extends StatefulWidget {
 
 class _ScorePredictor extends State<ScorePredictor> {
   bool showFuture = false;
+  bool showGraph = false;
+  double widgetHeight = 250;
   DataReader userData = DataReader();
 
   var Blocked = Column(
@@ -518,18 +562,64 @@ class _ScorePredictor extends State<ScorePredictor> {
           )
         ]);
 
+    var Graph = Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+            child:
+            Text("Score Trend", style: TextStyle(fontSize: 20.0)),
+          ),
+          SizedBox(
+            height: 350,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                for (var i = 0; i < userData.predictGraph().length; i++)
+                  Column(children: <Widget>[
+                        Column(children: <Widget>[
+                          Container(
+                            color: Color.fromRGBO(0, 0, 0, 0),
+                            width: 4,
+                            height: 300 - userData.predictGraph()[i] * 30,
+                          ),
+                          Container(
+                            color: Color.fromRGBO(
+                                50,
+                                (userData.predictGraph()[i] * 25).toInt(),
+                                255, 1),
+                            width: 4,
+                            height: userData.predictGraph()[i] * 30,
+                          ),
+                        ]),
+                  ])
+              ],
+            ),
+          ),
+        ]);
+
     return Container(
-        height: 250.0,
+        height: widgetHeight,
         padding: EdgeInsets.only(top: padding),
         child: FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
-          child: showFuture ? Unblocked:Blocked,
+          child: Column(
+              children: <Widget>[
+                showFuture ? Unblocked:Blocked,
+                showGraph ? Graph:Text(""),
+            ]
+          ),
           onPressed: () {
             setState(() {
-              showFuture = true;
+              if (!showFuture) showFuture = true;
+              else {
+                showGraph = true;
+                widgetHeight = 600;
+              }
             });
           },
         ));
