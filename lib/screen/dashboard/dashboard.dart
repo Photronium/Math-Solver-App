@@ -567,7 +567,7 @@ class _ScorePredictor extends State<ScorePredictor> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 12),
             child:
             Text("Score Trend", style: TextStyle(fontSize: 20.0)),
           ),
@@ -607,18 +607,25 @@ class _ScorePredictor extends State<ScorePredictor> {
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
+          child: Padding(
+            padding:EdgeInsets.only(top:24),
           child: Column(
               children: <Widget>[
                 showFuture ? Unblocked:Blocked,
+                showFuture && !showGraph ? Padding(
+                  padding:EdgeInsets.only(top:5),
+                    child:Text("Tap to see your score trend",
+                  style: TextStyle(color: Colors.blue))):Text(""),
                 showGraph ? Graph:Text(""),
             ]
+          ),
           ),
           onPressed: () {
             setState(() {
               if (!showFuture) showFuture = true;
               else {
                 showGraph = true;
-                widgetHeight = 600;
+                widgetHeight = 590;
               }
             });
           },
