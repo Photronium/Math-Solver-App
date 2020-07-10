@@ -4,6 +4,10 @@ import 'dart:math';
 
 const double padding = 25;
 
+Shader linearGradient = LinearGradient(
+  colors: <Color>[Colors.blue, Colors.greenAccent],
+).createShader(Rect.fromLTWH(0.0, 0.0, 120.0, 120.0));
+
 class DataReader {
   TheOracle oracle = TheOracle();
   String defaultt = "All Time";
@@ -13,7 +17,7 @@ class DataReader {
   List<double> lastWeek = [];
 
   void updateScore() {
-    this.allTime = [4.5, 8.5, 3.5, 9.6, 3.3, 10,9,8,7,8,9];
+    this.allTime = [4.5, 8.5, 3.5, 9.6, 3.3, 10, 9, 8, 7, 8, 9];
     this.lastYear = [8.5, 3.5, 9.6, 3.3, 10];
     this.lastMonth = [3.5, 9.6, 3.3, 10];
     this.lastWeek = [9.6, 3.3, 10];
@@ -63,10 +67,9 @@ class DataReader {
     return oracle.predict(allTime);
   }
 
-  List<double> predictGraph(){
+  List<double> predictGraph() {
     return oracle.graph(allTime);
   }
-
 }
 
 class TheOracle {
@@ -80,7 +83,7 @@ class TheOracle {
     return calculate(data, bestModel());
   }
 
-  List<double> graph(List<double> data){
+  List<double> graph(List<double> data) {
     if (data != trainedData) train(data);
 
     List<double> result = [];
@@ -89,7 +92,7 @@ class TheOracle {
     for (int i = 0; i < 20; i++) {
       for (int s = 0; s < 4; s++) {
         temp = 0;
-        x = i + 0.25*s;
+        x = i + 0.25 * s;
         for (int j = 0; j < bestModel().length; j++) {
           temp += bestModel()[j] * pow(x + 1, j);
         }
@@ -98,11 +101,11 @@ class TheOracle {
       }
     }
 
-    double compress = 10/result.reduce(max);
-    for(int i = 0; i < result.length; i++) result[i] = result[i]*compress;
+    double compress = 10 / result.reduce(max);
+    for (int i = 0; i < result.length; i++) result[i] = result[i] * compress;
 
-      return result;
-    }
+    return result;
+  }
 
   List<double> Regressor(List<double> data, int degree) {
     //Polynomial Fit
@@ -183,22 +186,26 @@ class TheOracle {
     return a;
   }
 
-  void train(List<double> data){
+  void train(List<double> data) {
     cubic = Regressor(data, 3);
     quartic = Regressor(data, 4);
     trainedData = data;
 
     double first = calculate(data, cubic);
     double second = calculate(data, quartic);
-    if ((first - data[data.length-1]).abs() > (second - data[data.length-1]).abs()) bestModelValue = 4;
-    else bestModelValue = 3;
+    if ((first - data[data.length - 1]).abs() >
+        (second - data[data.length - 1]).abs())
+      bestModelValue = 4;
+    else
+      bestModelValue = 3;
   }
 
-  double calculate(List<double>data, List<double> model){
+  double calculate(List<double> data, List<double> model) {
     if (data != trainedData) train(data);
 
     double result = 0;
-    for (int i = 0; i < model.length; i++) result += model[i] * pow(data.length + 1, i);
+    for (int i = 0; i < model.length; i++)
+      result += model[i] * pow(data.length + 1, i);
     if (result > 10) result = 10;
     if (result < 0) result = 0;
     return result;
@@ -255,10 +262,6 @@ class PerformanceScore extends StatefulWidget {
 class _PerformanceScore extends State<PerformanceScore> {
   DataReader userData = DataReader();
 
-  final Shader linearGradient = LinearGradient(
-    colors: <Color>[Colors.blue, Colors.greenAccent],
-  ).createShader(Rect.fromLTWH(0.0, 0.0, 120.0, 120.0));
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -304,7 +307,6 @@ class _PerformanceScore extends State<PerformanceScore> {
         ));
   }
 }
-
 
 class ScoreChart extends StatefulWidget {
   @override
@@ -502,6 +504,10 @@ class _PerformanceHistory extends State<PerformanceHistory> {
 }
 
 class ScorePredictor extends StatefulWidget {
+  final Shader linearGradient = LinearGradient(
+    colors: <Color>[Colors.blue, Colors.greenAccent],
+  ).createShader(Rect.fromLTWH(0.0, 0.0, 120.0, 120.0));
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -512,7 +518,7 @@ class ScorePredictor extends StatefulWidget {
 class _ScorePredictor extends State<ScorePredictor> {
   bool showFuture = false;
   bool showGraph = false;
-  double widgetHeight = 250;
+  double widgetHeight = 218;
   DataReader userData = DataReader();
 
   var Blocked = Column(
@@ -544,15 +550,17 @@ class _ScorePredictor extends State<ScorePredictor> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(bottom: 20),
+            padding: EdgeInsets.only(bottom: 6),
             child: Text("Time Travel", style: TextStyle(fontSize: 20.0)),
           ),
           Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(userData.predict().toStringAsFixed(2), style: TextStyle(fontSize: 40.0)),
-              ),
+                Text(
+                  userData.predict().toStringAsFixed(2),
+                  style: TextStyle(
+                      fontSize: 140.0,
+                      foreground: Paint()..shader = linearGradient),
+                ),
               Padding(
                 padding: EdgeInsets.only(top: 18),
                 child: Text("Don't let this affect your actual result",
@@ -568,8 +576,7 @@ class _ScorePredictor extends State<ScorePredictor> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 12),
-            child:
-            Text("Score Trend", style: TextStyle(fontSize: 20.0)),
+            child: Text("Score Trend", style: TextStyle(fontSize: 20.0, color: Colors.blue)),
           ),
           SizedBox(
             height: 350,
@@ -578,21 +585,19 @@ class _ScorePredictor extends State<ScorePredictor> {
               children: <Widget>[
                 for (var i = 0; i < userData.predictGraph().length; i++)
                   Column(children: <Widget>[
-                        Column(children: <Widget>[
-                          Container(
-                            color: Color.fromRGBO(0, 0, 0, 0),
-                            width: 4,
-                            height: 300 - userData.predictGraph()[i] * 30,
-                          ),
-                          Container(
-                            color: Color.fromRGBO(
-                                50,
-                                (userData.predictGraph()[i] * 25).toInt(),
-                                255, 1),
-                            width: 4,
-                            height: userData.predictGraph()[i] * 30,
-                          ),
-                        ]),
+                    Column(children: <Widget>[
+                      Container(
+                        color: Color.fromRGBO(0, 0, 0, 0),
+                        width: 4,
+                        height: 300 - userData.predictGraph()[i] * 30,
+                      ),
+                      Container(
+                        color: Color.fromRGBO(50,
+                            (userData.predictGraph()[i] * 25).toInt(), 255, 1),
+                        width: 4,
+                        height: userData.predictGraph()[i] * 30,
+                      ),
+                    ]),
                   ])
               ],
             ),
@@ -608,24 +613,27 @@ class _ScorePredictor extends State<ScorePredictor> {
           ),
           color: Colors.white,
           child: Padding(
-            padding:EdgeInsets.only(top:24),
-          child: Column(
-              children: <Widget>[
-                showFuture ? Unblocked:Blocked,
-                showFuture && !showGraph ? Padding(
-                  padding:EdgeInsets.only(top:5),
-                    child:Text("Tap to see your score trend",
-                  style: TextStyle(color: Colors.blue))):Text(""),
-                showGraph ? Graph:Text(""),
-            ]
-          ),
+            padding: EdgeInsets.only(top: 18),
+            child: Column(children: <Widget>[
+              showFuture ? Unblocked : Blocked,
+              showFuture && !showGraph
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Text("Tap to see your score trend",
+                          style: TextStyle(color: Colors.blue)))
+                  : Text(""),
+              showGraph ? Graph : Text(""),
+            ]),
           ),
           onPressed: () {
             setState(() {
-              if (!showFuture) showFuture = true;
+              if (!showFuture) {
+                showFuture = true;
+                widgetHeight = 330;
+              }
               else {
                 showGraph = true;
-                widgetHeight = 590;
+                widgetHeight = 680;
               }
             });
           },
