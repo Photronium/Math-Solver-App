@@ -179,10 +179,10 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
                 image: AssetImage('assets/images/iconSimplexMethod-06.png'),
                 height: 100.0,
               ),
-              title: Text("Simplex Method", style: TextStyle(fontSize: 18.0)),
-              subtitle: Text("The most basic method to solve Linear Program",
-                  style: TextStyle(
-                      fontFamily: 'Montserrat', fontWeight: FontWeight.normal)),
+              title: Text("Simplex Method",),
+              subtitle: Text("The most basic method to solve Linear Program",  style: TextStyle(
+                  fontFamily: 'Montserrat', fontWeight: FontWeight.normal, fontSize: 10.0)
+                  ),
               trailing: Icon(Icons.navigate_next),
             ),
             onPressed: () {
@@ -209,7 +209,7 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
               subtitle: Text(
                   'The "divide and conquer" method to solve LP with integer conditions',
                   style: TextStyle(
-                      fontFamily: 'Montserrat', fontWeight: FontWeight.normal)),
+                      fontFamily: 'Montserrat', fontWeight: FontWeight.normal, fontSize: 10.0)),
               trailing: Icon(Icons.navigate_next),
             ),
             onPressed: () {
@@ -242,11 +242,13 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
               subtitle: Text(
                   "Refine a feasible set or objective function by means of linear inequalities",
                   style: TextStyle(
-                      fontFamily: 'Montserrat', fontWeight: FontWeight.normal)),
+                      fontFamily: 'Montserrat', fontWeight: FontWeight.normal, fontSize: 10.0)),
               trailing: Icon(Icons.navigate_next),
             ),
           )),
-    ]);
+    ],
+      crossAxisAlignment: CrossAxisAlignment.start,
+    );
   }
 
   @override
