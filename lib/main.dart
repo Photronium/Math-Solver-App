@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screen/problem_solving/ps_1_method.dart';
+import 'screen/homepage.dart';
 
 const backgroundMainColor = Color(0xFFF2F2F2);
 const appBarColor = Color(0xFF46CB18);
@@ -29,7 +29,7 @@ class NumberCrunching extends StatelessWidget {
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
             elevation: 0.0, iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: ProblemSolvingPage(),
+      home: HomePage(),
     );
   }
 }

@@ -23,11 +23,11 @@ class DrawTab extends StatelessWidget {
               children: <Widget>[
                 CircleAvatar(
                   radius: 30.0,
-                  backgroundImage: AssetImage('assets/images/mycard.jpg'),
+                  backgroundImage: AssetImage('assets/images/mycard.png'),
                 ),
                 SizedBox(height: 10.0),
                 Text(
-                  "Nguyễn Hoàng Dũng",
+                  "Anonymous",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -36,8 +36,9 @@ class DrawTab extends StatelessWidget {
                 Text(
                   'Amateur Level',
                   style: TextStyle(
+                    fontFamily: 'Montserrat',
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 12,
                   ),
                 ),
               ],
