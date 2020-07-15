@@ -4,15 +4,22 @@ const backgroundMainColor = Color(0xFFF2F2F2);
 
 class FeedbackPageState extends State<FeedbackPage>{
 
-  TextEditingController _controller;
+  final myController = TextEditingController();
 
+  @override
   void initState(){
     super.initState();
-    _controller = TextEditingController(text: 'Please provide your feedback here');
+  }
+
+  @override
+  void dispose(){
+    myController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: backgroundMainColor,
       appBar: AppBar(
@@ -24,33 +31,84 @@ class FeedbackPageState extends State<FeedbackPage>{
       ),
       body: Container(
         margin: EdgeInsets.all(15.0),
-        padding: const EdgeInsets.all(3.0),
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: Colors.white38,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              radius: 25.0,
-              backgroundImage: AssetImage('assets/images/mycard.jpg'),
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              "Nguyễn Hoàng Dũng",
-              style: TextStyle(
-                fontSize: 18,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 25.0,
+                backgroundImage: AssetImage('assets/images/mycard.jpg'),
               ),
-            ),
-            TextField(
-              autofocus: true,
-              maxLength: 2000,
-              decoration: InputDecoration(
-                hintText: 'Please type your feedback here',
+              SizedBox(height: 10.0),
+              Text(
+                "Nguyễn Hoàng Dũng",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
-            ),
-          ],
+              TextField(
+                autofocus: true,
+                controller: myController,
+                maxLength: 2000,
+                decoration: InputDecoration(
+                  hintText: 'Please type your feedback here',
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: InkWell(
+                  onTap: () {
+                    if (myController.text != "")
+                    return showDialog(
+                        context: context,
+                        builder: (context){
+                          return AlertDialog(
+                            title: Text('Feedback submitted !'),
+                            content: Text("Every feedback of you is valuable for us. Thank you!"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                      }
+                    );
+                    return showDialog(
+                        context: context,
+                        builder: (context){
+                          return AlertDialog(
+                            title: Text('Error'),
+                            content: Text("You must provide your feedback !"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        }
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Send', style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
