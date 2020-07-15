@@ -12,8 +12,8 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   @override
   SimplexSolver solution = new SimplexSolver();
-
   Widget build(BuildContext context) {
+    solution.printMatrix();
     return Scaffold(
       appBar: AppBar(
         title: Text('Problem Solving',
@@ -63,7 +63,7 @@ class _ResultPageState extends State<ResultPage> {
                 color: Colors.deepOrangeAccent,
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: Text("No Result",
+              child: Text(solution.printResult(),
                   style: TextStyle(
                     fontSize: 18.0,
                   )),

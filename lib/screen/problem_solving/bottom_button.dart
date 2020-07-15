@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'component.dart';
+
 class BottomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,7 +8,10 @@ class BottomBackButton extends StatelessWidget {
       child: FlatButton(
           textColor: Colors.white,
           color: Colors.greenAccent,
-          child: Text("BACK", style: kBottomButtonStyle),
+          child: Text("BACK", style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          )),
           onPressed: (){
             Navigator.pop(context);
           }
@@ -27,7 +30,10 @@ class BottomNextButton extends StatelessWidget {
       child: FlatButton(
         textColor: Colors.white,
         color: Colors.greenAccent,
-        child: Text("NEXT", style: kBottomButtonStyle),
+        child: Text("NEXT", style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        )),
         onPressed: onPressed,
       ),
     );

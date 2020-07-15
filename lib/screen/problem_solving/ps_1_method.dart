@@ -16,8 +16,7 @@ class ProblemSolvingPage extends StatelessWidget {
       drawer: DrawTab(),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Padding(padding: EdgeInsets.only(left: 20.0, top: 10.0),child: Text("TYPE")),
             OptionWidgets(),

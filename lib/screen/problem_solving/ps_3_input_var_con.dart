@@ -14,45 +14,52 @@ class InputConstraint extends StatefulWidget {
 class _InputConstraintState extends State<InputConstraint> {
   List<Widget> equationInput = [];
   List<Widget> constraintInput = [];
+  int numVar = int.parse(variableController.text);
+  int numCon = int.parse(constraintController.text);
 
-  void modifyInputVariable() {
+  void modifyInputVariable(){
+
     equationInput.clear();
     equationInput.add(Expanded(child: Center(child: Text("Y = "))));
-    for (var i = 0; i < int.parse(variableController.text); i++) {
+    for(int i = 0; i < numVar; i++){
       String temp = "X${i+1}";
-      if(i+1 != int.parse(variableController.text))
+      if(i + 1 != numVar){
         temp += " + ";
-      equationController.add(TextEditingController());
-      equationInput.add(Expanded(child: NumberInputField(controller: equationController[i])));
+      }
+      matrixC.add(TextEditingController());
+      equationInput.add(Expanded(child: NumberInputField(controller: matrixC[i])));
       equationInput.add(Expanded(child: Center(child: Text(temp))));
     }
   }
 
-  void modifyInputConstraint() {
+  void modifyInputConstraint(){
     constraintInput.clear();
-    for (var i = 0; i < int.parse(constraintController.text); i++) {
+    for(int i = 0; i < numCon; i++){
       List<Widget> constraint = [];
-      conditionController.add([]);
-      for (var j = 0; j < int.parse(variableController.text); j++) {
+      matrixA.add([]);
+      for(int j = 0; j < numVar; j++){
         String temp = "X${j+1}";
-        if(j+1 != int.parse(variableController.text))
+        if(j+1 != numVar) {
           temp += " + ";
-        conditionController[i].add(TextEditingController());
-        constraint.add(Expanded(child: NumberInputField(controller: conditionController[i][j])));
+        }
+        matrixA[i].add(TextEditingController());
+        constraint.add(Expanded(child: NumberInputField(controller: matrixA[i][j])));
         constraint.add(Expanded(child: Center(child: Text(temp))));
       }
       constraint.add(Expanded(child: Center(child: Text("<="))));
-      conditionController[i].add(TextEditingController());
-      constraint.add(Expanded(child: NumberInputField(controller: conditionController[i][int.parse(variableController.text)])));
+      matrixB.add(TextEditingController());
+      constraint.add(Expanded(child: NumberInputField(controller: matrixB[i])));
       constraintInput.add(Row(children: constraint));
       constraintInput.add(SizedBox(height: 10.0));
     }
+
+
   }
 
   @override
   Widget build(BuildContext context) {
-    modifyInputVariable();
     modifyInputConstraint();
+    modifyInputVariable();
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -90,10 +97,8 @@ class _InputConstraintState extends State<InputConstraint> {
               Expanded(
                 child: BottomNextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResultPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ResultPage()));
                   },
                 ),
               )

@@ -36,7 +36,7 @@ class Type {
     return this._image;
   }
 }
-
+//TODO: Define type
 final List<Type> typeList = [
   Type(
       name: "Simplex Method",
