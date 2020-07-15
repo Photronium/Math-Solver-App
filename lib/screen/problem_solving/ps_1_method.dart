@@ -9,8 +9,7 @@ class ProblemSolvingPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Problem Solving',
-            style: TextStyle(fontWeight: FontWeight.w300)),
+        title: Text('Problem Solving'),
         centerTitle: true,
       ),
       drawer: DrawTab(),

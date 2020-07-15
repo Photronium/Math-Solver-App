@@ -254,10 +254,9 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundMainColor,
+//      backgroundColor: backgroundMainColor,
       appBar: AppBar(
-        title: Text('Learning Material',
-            style: TextStyle(fontWeight: FontWeight.w300)),
+        title: Text('Learning Material'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -266,7 +265,6 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
                 showSearch(context: context, delegate: DataSearch());
               })
         ],
-        backgroundColor: backgroundMainColor,
       ),
       drawer: DrawTab(),
       body: Padding(

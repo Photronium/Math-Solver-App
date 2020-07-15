@@ -232,10 +232,8 @@ class _Dashboard extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:
-              Text('Dashboard', style: TextStyle(fontWeight: FontWeight.w300)),
+          title: Text('Dashboard'),
           centerTitle: true,
-          backgroundColor: Colors.white,
         ),
         drawer: DrawTab(),
         body: ListView(
