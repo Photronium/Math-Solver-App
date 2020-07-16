@@ -82,11 +82,10 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                   ),
                   color: Colors.green,
                   onPressed: () {
-                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => FeedbackPage()));
+                            builder: (_) => FeedbackPage()));
                   },
                 ),
                 RaisedButton(

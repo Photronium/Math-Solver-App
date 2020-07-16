@@ -23,6 +23,10 @@ class FeedbackPageState extends State<FeedbackPage>{
     return Scaffold(
       backgroundColor: backgroundMainColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text(
           'Feedback',
           style: TextStyle(fontWeight: FontWeight.w300),

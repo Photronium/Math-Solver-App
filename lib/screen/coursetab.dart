@@ -38,6 +38,10 @@ class _CoursePageState extends State<CoursePage> with SingleTickerProviderStateM
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+           onPressed: () => Navigator.pop(context),
+        ),
         title: Text(widget.title),
         bottom: TabBar(
           controller: _tabController,

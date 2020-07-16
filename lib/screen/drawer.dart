@@ -45,6 +45,7 @@ class DrawTab extends StatelessWidget {
               ],
             ),
           ),
+          /*
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Learning Material'),
@@ -55,6 +56,7 @@ class DrawTab extends StatelessWidget {
               );
             }
           ),
+           */
           ListTile(
             leading: Icon(Icons.check),
             title: Text('Test'),
