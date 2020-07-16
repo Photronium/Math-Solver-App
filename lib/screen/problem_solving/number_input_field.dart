@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 class NumberInputField extends StatelessWidget {
   NumberInputField({this.controller});
   final controller;
+  bool isFilled;
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -10,8 +10,24 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  void clearEditing(){
+    variableController.dispose();
+    constraintController.dispose();
+    for(int i = 0; i < matrixA.length; i++){
+      for(int j = 0; j < matrixA[i].length; j++){
+        matrixA[i][j].dispose();
+      }
+    }
+    for(int i = 0; i < matrixB.length; i++){
+      matrixB[i].dispose();
+    }
+    for(int i = 0; i < matrixC.length; i++){
+      matrixC[i].dispose();
+    }
+  }
   @override
   SimplexSolver solution = new SimplexSolver();
+
   Widget build(BuildContext context) {
     solution.printMatrix();
     return Scaffold(

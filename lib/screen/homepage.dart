@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'drawer.dart';
-import 'learning_material/learning_material.dart';
+import 'data.dart';
 
 class DashOption extends StatelessWidget {
-  String image;
-  String title;
-  Widget next;
+  final String image;
+  final String title;
+  final Widget next;
 
   DashOption({this.image, this.title, this.next});
 
@@ -37,8 +36,17 @@ class DashOption extends StatelessWidget {
             Navigator.push(
                 context, new MaterialPageRoute(builder: (context) => next));
           },
-          child: Column(
-            children: [Image(image: AssetImage(image)), Text(title)],
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Image(
+                  image: AssetImage(image),
+                  height: 50.0,
+                ),
+                Text(title)
+              ],
+            ),
           ),
         ),
       ),
@@ -67,32 +75,64 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0, left: 5.0),
-              child: Column(
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Hello Anonymous",
-                          style: TextStyle(fontSize: 30.0))),
-                  SizedBox(height: 5.0),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("What would you like to learn today?"),
-                  ),
-                ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                ),
+                padding: EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          width: 150.0,
+                          child: Text(
+                            "Hello my friend",
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.0),
+                        Container(
+                          width: 150.0,
+                          child: Text(
+                            "What would you like to learn today?",
+                            style: TextStyle(fontFamily: 'Montserrat'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Image(
+                      image: AssetImage('assets/images/homepage-icon.png'),
+                      height: 200.0,
+                    ),
+                  ],
+                ),
               ),
             ),
             Row(
               children: [
                 DashOption(
-                  image: 'assets/images/optimization-icon.png',
-                  title: 'Optimization',
-                  next: LearningMaterialPage(),
+                  image: optimization.getImage(),
+                  title: optimization.getName(),
+                  next: optimization.getNext(),
                 ),
                 SizedBox(width: 15.0),
                 DashOption(
-                  image: 'assets/images/sorting-icon.png',
-                  title: 'Sorting',
-                  next: LearningMaterialPage(),
+                  image: sorting.getImage(),
+                  title: sorting.getName(),
+                  next: sorting.getNext(),
                 ),
               ],
             ),

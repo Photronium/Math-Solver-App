@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numbercrunching/screen/test_page/do_test.dart';
 
-import '../drawer.dart';
-
 
 class TestPage extends StatefulWidget {
   @override
@@ -23,14 +21,14 @@ class _TestPageState extends State<TestPage> {
     'Refine a feasible set or objective function by means of linear inequalities',
   ];
 
-  Widget customcard(String method, String image, String description){
+  Widget customcard(String method, String image, String description) {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 20.0,
         horizontal: 30.0,
       ),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => GetJson(method),
           ));
@@ -54,23 +52,16 @@ class _TestPageState extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Test',
-            style: TextStyle(fontWeight: FontWeight.w300)),
-        centerTitle: true,
-      ),
-      drawer: DrawTab(),
-      body: ListView(
+    return ListView(
+      children: <Widget>[
+        Column(
           children: <Widget>[
-            Column(children: <Widget>[
-              customcard("Simplex Method",images[0], description[0]),
-              customcard("Branch And Bound Method",images[1], description[1]),
-              customcard("Cutting Plane Method",images[2], description[2]),
-            ],
-            ),
-          ]
-      ),
+            customcard("Simplex Method", images[0], description[0]),
+            customcard("Branch And Bound Method", images[1], description[1]),
+            customcard("Cutting Plane Method", images[2], description[2]),
+          ],
+        ),
+      ],
     );
   }
 }

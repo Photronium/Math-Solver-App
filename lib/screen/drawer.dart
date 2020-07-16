@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:numbercrunching/screen/test_page/selecttest.dart';
 import '../screen/problem_solving/ps_1_method.dart';
 import '../screen/learning_material/learning_material.dart';
 import '../screen/dashboard/dashboard.dart';
@@ -58,7 +59,10 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.check),
             title: Text('Test'),
             onTap: (){
-              print("TAP 2");
+              Navigator.pop(context);
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => TestPage())
+              );
             }
           ),
           ListTile(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../drawer.dart';
-import 'description_page/simplex_page.dart';
-import 'description_page/cuttingPlane_page.dart';
+
 import 'description_page/b&b_page.dart';
+import 'description_page/cuttingPlane_page.dart';
+import 'description_page/simplex_page.dart';
 
 const PrimaryColor = const Color(0xFF3786FF);
 const backgroundMainColor = Color(0xFFF2F2F2);
@@ -253,22 +253,8 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-//      backgroundColor: backgroundMainColor,
-      appBar: AppBar(
-        title: Text('Learning Material'),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: DataSearch());
-              })
-        ],
-      ),
-      drawer: DrawTab(),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -276,7 +262,6 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
             _buildSuggestions(context),
           ],
         ),
-      ),
     );
   }
 }

@@ -230,7 +230,9 @@ class SimplexSolver {
       }
     }
     print("Answers for the Constraints of variables");
-
+    for(int i = 0; i < cols; i++){
+      R.add(0.0);
+    }
     for (int i = 0; i < A.length; i++) { //every basic column has the values, get it form B array
       int count0 = 0;
       int index = 0;
@@ -245,14 +247,19 @@ class SimplexSolver {
 
       if (count0 == rows - 1) {
         print("variable ${index + 1} : ${B[index]} \n"); //every basic column has the values, get it form B array
-        R.add(B[index]);
+        R[i] = B[index];
       }
       else {
         print("variable ${index + 1} : 0 \n");
-        R.add(0.0);
+        R[i] = 0;
       }
     }
     print("maximum value: ${maximum} \n "); //print the maximum values
+    for(int i = 0; i < A.length; i++){
+      for(int j = 0; j < A[i].length; j++) {
+        print(A[i][j]);
+      }
+    }
   }
 
   void printMatrix() {
@@ -293,7 +300,7 @@ class SimplexSolver {
     for(int i = 0; i < matrixA.length; i++){
       for(int j = 0; j < matrixA[i].length; j++){
         temp += matrixA[i][j].text + "X${j+1}";
-        if(j + 1 != matrixB.length)
+        if(j + 1 != matrixA[i].length)
           temp += " + ";
       }
       temp += " <= " + matrixB[i].text;
@@ -303,16 +310,16 @@ class SimplexSolver {
   }
 
   String printResult(){
-    String temp = "Y = ${maximum} \n(";
-    for(int i = 0; i < R.length; i++){
+    String temp = "Y = ${maximum.toStringAsFixed(3)} \n(";
+    for(int i = 0; i < cols - rows; i++){
       temp += "X${i+1}";
-      if(i + 1 != R.length)
+      if(i + 1 != cols - rows)
         temp += " , ";
     }
     temp += ") = (";
-    for(int i = 0; i < matrixC.length; i++){
-      temp += R[i].toString();
-      if(i + 1 != matrixC.length)
+    for(int i = 0; i < cols - rows; i++){
+      temp += R[i].toStringAsFixed(3);
+      if(i + 1 != cols - rows)
         temp += " , ";
     }
     temp += ")";

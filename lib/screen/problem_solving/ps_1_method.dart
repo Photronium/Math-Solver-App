@@ -4,24 +4,18 @@ import '../drawer.dart';
 import 'option.dart';
 
 class ProblemSolvingPage extends StatelessWidget {
+  final String title;
+  ProblemSolvingPage({this.title});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('Problem Solving'),
-        centerTitle: true,
-      ),
-      drawer: DrawTab(),
-      body: Padding(
+    return Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView(
           children: [
             Padding(padding: EdgeInsets.only(left: 20.0, top: 10.0),child: Text("TYPE")),
-            OptionWidgets(),
+            OptionWidgets(title: title),
           ],
         ),
-      )
     );
   }
 }
