@@ -10,6 +10,10 @@ class CuttingPlaneLearningPageState extends State<CuttingPlaneLearningPage>{
     return Scaffold(
       backgroundColor: backgroundMainColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text('Cutting Plane Method',
           style: TextStyle(fontWeight: FontWeight.w300),
         ),

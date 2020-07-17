@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'solution/generalSolutionPage.dart';
 import 'feedback/feedback.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 
 Future getMethod(String method) async {
   var db = Firestore.instance;
@@ -40,24 +42,45 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                     );
                   } else {
                     return Container(
-                      child: RichText(
-                        text: TextSpan(
-                            text: "Description\n\n",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25.0,
-                                fontFamily: 'Times New Roman',
-                                color: Colors.black54),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: snapshot.data.data['definition'],
+                      child: Column(
+                        children: <Widget>[
+                          RichText(
+                            text: TextSpan(
+                                text: "Description\n\n",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 17.0,
-                                    fontFamily: 'Times New Roman',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25.0,
                                     color: Colors.black54),
-                              )
-                            ]),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: snapshot.data.data['definition'],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17.0,
+                                        color: Colors.black54),
+                                  ),
+                                ]),
+                          ),
+                          TeXView(
+                            child: TeXViewContainer(
+                              child: TeXViewDocument(
+                                  snapshot.data.data['TeX']
+                              ),
+                                  style:  TeXViewStyle(
+                                    fontStyle: TeXViewFontStyle(
+                                      fontWeight: TeXViewFontWeight.w500,
+                                      fontSize: 17,
+                                    ),
+                                    contentColor: Colors.black26,
+                                    backgroundColor: Colors.greenAccent,
+                                    margin: TeXViewMargin.all(10),
+                                    borderRadius: TeXViewBorderRadius.all(20),
+                                    padding: TeXViewPadding.all(12)
+                                  ),
+                            ),
+                              renderingEngine: TeXViewRenderingEngine.katex(),
+                            ),
+                        ],
                       ),
                       margin: EdgeInsets.all(10.0),
                       padding: const EdgeInsets.all(3.0),
@@ -94,7 +117,9 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Colors.green,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, new MaterialPageRoute(builder: (_) => generalSolutionPage()));
+                  },
                 ),
               ],
             ),

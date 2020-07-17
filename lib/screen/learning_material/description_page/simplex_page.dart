@@ -14,6 +14,10 @@ class SimplexLearningPageState extends State<SimplexLearningPage> {
     return Scaffold(
       backgroundColor: backgroundMainColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text(
           'Simplex Method',
           style: TextStyle(fontWeight: FontWeight.w300),
@@ -21,7 +25,6 @@ class SimplexLearningPageState extends State<SimplexLearningPage> {
         centerTitle: true,
       ),
       body: DetailedDescription(method: 'Simplex Method'),
-      drawer: DrawTab(),
     );
   }
 }

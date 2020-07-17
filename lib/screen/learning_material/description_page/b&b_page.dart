@@ -10,6 +10,10 @@ class BBLearningPageState extends State<BBLearningPage>{
     return Scaffold(
       backgroundColor: backgroundMainColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text('Branch and Bound Method',
           style: TextStyle(fontWeight: FontWeight.w300),
         ),
