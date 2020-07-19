@@ -118,7 +118,7 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                   ),
                   color: Colors.green,
                   onPressed: () {
-                    Navigator.push(context, new MaterialPageRoute(builder: (_) => generalSolutionPage()));
+                    Navigator.push(context, new MaterialPageRoute(builder: (context) => generalSolutionPage(method: method,)));
                   },
                 ),
               ],

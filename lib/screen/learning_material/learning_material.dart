@@ -102,7 +102,6 @@ class LearningMaterialPageState extends State<LearningMaterialPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: 20.0, top: 10.0),child: Text("Optimization")),
             _buildSuggestions(context),
           ],
         ),
