@@ -1,39 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:numbercrunching/screen/problem_solving/ps_4_result.dart';
+import 'package:numbercrunching/screen/problem_solving/simplex_result.dart';
 
 import '../drawer.dart';
 import 'bottom_button.dart';
 import 'number_input_field.dart';
+import 'simplex_num_variable_constraint.dart';
 import 'simplex_solver.dart';
 
-class InputConstraint extends StatefulWidget {
+class SimplexInputConstraint extends StatefulWidget {
   @override
-  _InputConstraintState createState() => _InputConstraintState();
+  _SimplexInputConstraintState createState() => _SimplexInputConstraintState();
 }
 
-class _InputConstraintState extends State<InputConstraint> {
+class _SimplexInputConstraintState extends State<SimplexInputConstraint> {
   List<Widget> equationInput = [];
   List<Widget> constraintInput = [];
   int numVar = int.parse(variableController.text);
   int numCon = int.parse(constraintController.text);
 
-  void modifyInputVariable() {
+  void setUp() {
+    simplexController.setNum();
+    simplexController.addEditingController();
     equationInput.clear();
+    constraintInput.clear();
+  }
+
+  void modifyInputVariable() {
+    int init = matrixC.length;
     equationInput.add(Expanded(child: Center(child: Text("Y = "))));
     for (int i = 0; i < numVar; i++) {
       String temp = "X${i + 1}";
       if (i + 1 != numVar) {
         temp += " + ";
       }
-      matrixC.add(TextEditingController());
-      equationInput
-          .add(Expanded(child: NumberInputField(controller: matrixC[i])));
-      equationInput.add(Expanded(child: Center(child: Text(temp))));
+//      if (i >= init) {
+//        matrixC.add(TextEditingController());
+//      }
+        equationInput
+            .add(Expanded(child: NumberInputField(controller: matrixC[i])));
+        equationInput.add(Expanded(child: Center(child: Text(temp))));
     }
   }
 
   void modifyInputConstraint() {
-    constraintInput.clear();
+    int initA = matrixA.length;
+    int initB = matrixB.length;
     for (int i = 0; i < numCon; i++) {
       List<Widget> constraint = [];
       matrixA.add([]);
@@ -42,14 +53,19 @@ class _InputConstraintState extends State<InputConstraint> {
         if (j + 1 != numVar) {
           temp += " + ";
         }
-        matrixA[i].add(TextEditingController());
+//        if (j >= initA) {
+//          matrixA[i].add(TextEditingController());
+//        }
         constraint
             .add(Expanded(child: NumberInputField(controller: matrixA[i][j])));
         constraint.add(Expanded(child: Center(child: Text(temp))));
       }
       constraint.add(Expanded(child: Center(child: Text("<="))));
-      matrixB.add(TextEditingController());
-      constraint.add(Expanded(child: NumberInputField(controller: matrixB[i])));
+//      if(i >= initB) {
+//        matrixB.add(TextEditingController());
+//      }
+      constraint.add(Expanded(
+          child: NumberInputField(controller: matrixB[i])));
       constraintInput.add(Row(children: constraint));
       constraintInput.add(SizedBox(height: 10.0));
     }
@@ -57,6 +73,7 @@ class _InputConstraintState extends State<InputConstraint> {
 
   @override
   Widget build(BuildContext context) {
+    setUp();
     modifyInputConstraint();
     modifyInputVariable();
     return Scaffold(
@@ -65,7 +82,7 @@ class _InputConstraintState extends State<InputConstraint> {
         title: Text('Problem Solving'),
         centerTitle: true,
       ),
-      drawer: DrawTab(),
+//      drawer: DrawTab(),
       body: Column(
         children: [
           Expanded(
@@ -104,6 +121,9 @@ class _InputConstraintState extends State<InputConstraint> {
               Expanded(
                 child: BottomNextButton(
                   onPressed: () {
+                    if(simplexController.simplexSolver != null)
+                      simplexController.simplexSolver = null;
+                    simplexController.createSimplexSolver();
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => ResultPage()));
                   },

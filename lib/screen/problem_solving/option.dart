@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:numbercrunching/screen/data.dart';
-import 'package:numbercrunching/screen/problem_solving/ps_2_input_numVar_numCon.dart';
+import 'file:///D:/AndroidStudioProjects/Math-Solver-App/lib/data/data.dart';
+import 'package:numbercrunching/screen/problem_solving/simplex_num_variable_constraint.dart';
 
 class OptionElement extends StatelessWidget {
   final String image;
   final String description;
   final String name;
+  final String next;
   final BuildContext context;
 
-  OptionElement({this.image, this.name, this.description, this.context});
+  OptionElement({this.image, this.name, this.description, this.context, this.next});
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +26,18 @@ class OptionElement extends StatelessWidget {
             image: AssetImage(image),
             height: 100.0,
           ),
-          title: Text(name, style: TextStyle(fontSize: 18.0)),
+          title: Text(name, style: TextStyle(fontSize: 15.0)),
           subtitle: Text(
             description,
             style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w100,
-                fontSize: 12.0),
+                fontSize: 11.0),
           ),
           trailing: Icon(Icons.navigate_next),
         ),
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => InputConstraintVariable()));
+          Navigator.pushNamed(context, next);
         },
       ),
     );
@@ -65,6 +63,7 @@ class OptionWidgets extends StatelessWidget {
           name: solutionList[i].getName(),
           description: solutionList[i].getDescription(),
           image: solutionList[i].getImage(),
+          next: solutionList[i].getNext(),
           context: context,
         ),
       );

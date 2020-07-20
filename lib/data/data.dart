@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'coursetab.dart';
+import '../screen/course_page.dart';
 
 class Course {
   String _name;
   String _image;
-  Widget _next;
+  String _next;
   List<Type> _solutionList;
 
-  Course({String name, String image, Widget next, List<Type> solutionList}){
+  Course({String name, String image, String next, List<Type> solutionList}){
     this._name = name;
     this._image = image;
     this._next = next;
@@ -23,7 +23,7 @@ class Course {
     this._image = i;
   }
 
-  void setNext(Widget n){
+  void setNext(String n){
     this._next = n;
   }
 
@@ -39,7 +39,7 @@ class Course {
     return this._solutionList;
   }
 
-  Widget getNext(){
+  String getNext(){
     return this._next;
   }
 }
@@ -48,9 +48,9 @@ class Type {
   String _name;
   String _description;
   String _image;
-  Widget _next;
+  String _next;
 
-  Type({String name, String description, String image, Widget next}) {
+  Type({String name, String description, String image, String next}) {
     this._name = name;
     this._description = description;
     this._image = image;
@@ -69,7 +69,7 @@ class Type {
     this._image = i;
   }
 
-  void setNext(Widget n){
+  void setNext(String n){
     this._next = n;
   }
 
@@ -85,50 +85,53 @@ class Type {
     return this._image;
   }
 
-  Widget getNext(){
+  String getNext(){
     return this._next;
   }
 }
-//TODO: Define type
 
+//TODO: Define type
 //TODO: Optimization declaration
 Course optimization = Course(
   name: "Optimization",
   image: 'assets/images/optimization-icon.png',
-  next:  CoursePage(title: 'Optimization'),
+  next:  '/optimization',
   solutionList: [
     Type(
-        name: "Simplex Method",
-        description: "The most basic method to solve Linear Program",
-        image: "assets/images/iconSimplexMethod-06.png"
+        name: "Basic Simplex Method",
+        description: "Using simplex method to solve problem with all positive input",
+        image: "assets/images/iconSimplexMethod-06.png",
+        next: '/solver/basic_simplex',
     ),
-    Type(
-        name: "Branch and Bound",
-        description: 'The "divide and conquer" method to solve LP with integer conditions',
-        image: "assets/images/iconBranchAndBound-06.png"
-    ),
-    Type(
-        name: "Cutting Plane",
-        description: "Refine a feasible set or objective function by means of linear inequalities",
-        image: "assets/images/iconCuttingPlane-06.png"
-    ),
+//    Type(
+//        name: "Branch and Bound",
+//        description: 'The "divide and conquer" method to solve LP with integer conditions',
+//        image: "assets/images/iconBranchAndBound-06.png"
+//    ),
+//    Type(
+//        name: "Cutting Plane",
+//        description: "Refine a feasible set or objective function by means of linear inequalities",
+//        image: "assets/images/iconCuttingPlane-06.png"
+//    ),
   ],
 );
 
 Course sorting = Course(
   name: "Sorting",
   image: 'assets/images/sorting-icon.png',
-  next: CoursePage(title: 'Sorting'),
+  next: '/sorting',
   solutionList: [
     Type(
         name: "Quick Sort",
         description: "First sorting algorithm",
-        image: "assets/images/iconSimplexMethod-06.png"
+        image: "assets/images/iconSimplexMethod-06.png",
+        next: '/solver/quick',
     ),
     Type(
         name: "Merge Sort",
         description: "Second sorting algorithm",
-        image: "assets/images/iconSimplexMethod-06.png"
+        image: "assets/images/iconSimplexMethod-06.png",
+        next: '/solver/merge',
     ),
   ],
 );

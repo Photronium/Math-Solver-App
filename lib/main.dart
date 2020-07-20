@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screen/homepage.dart';
+import 'screen/course_page.dart';
+import 'screen/problem_solving/simplex_num_variable_constraint.dart';
+import 'screen/problem_solving/sort_num_variable.dart';
 
 const backgroundMainColor = Color(0xFFF2F2F2);
 const appBarColor = Color(0xFF46CB18);
@@ -16,6 +19,15 @@ class NumberCrunching extends StatelessWidget {
       statusBarColor: appBarColor, //or set color with: Color(0xFF0000FF)
     ));
     return MaterialApp(
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (context) => HomePage(),
+        '/optimization': (context) => CoursePage(title: 'Optimization'),
+        '/solver/basic_simplex': (context) => SimplexInputNumberOfConstraint(),
+        '/solver/merge': (context) => SortingInputNumVariable(type: 2),
+        '/solver/quick': (context) => SortingInputNumVariable(type: 1),
+        '/sorting': (context) => CoursePage(title: 'Sorting'),
+      },
       title: "Algo Learning App",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -29,7 +41,7 @@ class NumberCrunching extends StatelessWidget {
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
             elevation: 0.0, iconTheme: IconThemeData(color: Colors.white)),
       ),
-      home: HomePage(),
+//      home: HomePage(),
     );
   }
 }

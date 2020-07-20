@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:numbercrunching/screen/homepage.dart';
 import 'package:numbercrunching/screen/test_page/selecttest.dart';
-import '../screen/problem_solving/ps_1_method.dart';
+import '../screen/problem_solving/problem_solving_main.dart';
 import '../screen/learning_material/learning_material.dart';
 import '../screen/dashboard/dashboard.dart';
 
@@ -58,26 +59,26 @@ class DrawTab extends StatelessWidget {
           ),
            */
           ListTile(
-            leading: Icon(Icons.check),
-            title: Text('Test'),
+            leading: Icon(Icons.home),
+            title: Text('Home'),
             onTap: (){
               Navigator.pop(context);
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => TestPage())
+                  new MaterialPageRoute(builder: (context) => HomePage())
               );
             }
           ),
-          ListTile(
-            leading: Icon(Icons.center_focus_strong),
-            title: Text('Problem Solving'),
-            onTap: (){
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                  MaterialPageRoute(builder:(context) => ProblemSolvingPage())
-              );
-            }
-          ),
+//          ListTile(
+//            leading: Icon(Icons.center_focus_strong),
+//            title: Text('Problem Solving'),
+//            onTap: (){
+//              Navigator.pop(context);
+//              Navigator.push(
+//                context,
+//                  MaterialPageRoute(builder:(context) => ProblemSolvingPage())
+//              );
+//            }
+//          ),
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('Dashboard'),

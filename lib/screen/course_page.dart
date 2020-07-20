@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:numbercrunching/screen/problem_solving/ps_1_method.dart';
+import 'package:numbercrunching/screen/problem_solving/problem_solving_main.dart';
 import 'test_page/selecttest.dart';
 import 'learning_material/learning_material.dart';
 import 'drawer.dart';

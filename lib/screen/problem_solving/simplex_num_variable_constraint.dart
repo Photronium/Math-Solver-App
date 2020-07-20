@@ -4,14 +4,16 @@ import 'package:flutter/services.dart';
 import '../drawer.dart';
 import 'bottom_button.dart';
 import 'simplex_solver.dart';
-import 'ps_3_input_var_con.dart';
+import 'simplex_add_equation_condition.dart';
 
-class InputConstraintVariable extends StatefulWidget {
+SimplexController simplexController;
+
+class SimplexInputNumberOfConstraint extends StatefulWidget {
   @override
-  _InputConstraintVariableState createState() => _InputConstraintVariableState();
+  _SimplexInputNumberOfConstraintState createState() => _SimplexInputNumberOfConstraintState();
 }
 
-class _InputConstraintVariableState extends State<InputConstraintVariable> {
+class _SimplexInputNumberOfConstraintState extends State<SimplexInputNumberOfConstraint> {
   bool warnVariable = false;
   bool warnConstraints = false;
 
@@ -23,7 +25,7 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
         title: Text('Problem Solving'),
         centerTitle: true,
       ),
-      drawer: DrawTab(),
+//      drawer: DrawTab(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -101,12 +103,16 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                   var varInt = int.parse(variableController.text);
                   var conInt = int.parse(constraintController.text);
                   if(varInt >= 2 && varInt <= 5 && conInt >= 2 && conInt <= 10) {
+                    if(simplexController != null){
+                      simplexController = null;
+                    }
+                    simplexController = new SimplexController();
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => InputConstraint()));
+                        MaterialPageRoute(builder: (context) => SimplexInputConstraint()));
                   }
                   else {
-                    if(varInt <= 2 || varInt > 5){
+                    if(varInt < 2 || varInt > 5){
                       setState(() {
                         warnVariable = true;
                       });
@@ -116,7 +122,7 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                         warnVariable = false;
                       });
                     }
-                    if(conInt <= 2 || conInt > 10){
+                    if(conInt < 2 || conInt > 10){
                       setState(() {
                         warnConstraints = true;
                       });
