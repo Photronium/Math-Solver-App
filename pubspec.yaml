@@ -14,6 +14,8 @@ dependencies:
   cupertino_icons: ^0.1.3
   flutter_tex: ^3.6.7+8
   cloud_firestore: ^0.13.7
+  youtube_player_flutter: ^7.0.0+7
+  async: ^2.4.1
 
 
 dev_dependencies:

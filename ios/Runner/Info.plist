@@ -50,3 +50,5 @@
 
 <key>io.flutter.embedded_views_preview</key> <true/>
 </plist>
+<key>io.flutter.embedded_views_preview</key>
+<true/>
