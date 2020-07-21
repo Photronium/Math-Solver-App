@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:numbercrunching/screen/problem_solving/simplex_result.dart';
-
-import '../drawer.dart';
 import 'bottom_button.dart';
 import 'number_input_field.dart';
+import 'simplex_controller.dart';
 import 'simplex_num_variable_constraint.dart';
-import 'simplex_solver.dart';
 
 class SimplexInputConstraint extends StatefulWidget {
   @override
@@ -17,6 +15,7 @@ class _SimplexInputConstraintState extends State<SimplexInputConstraint> {
   List<Widget> constraintInput = [];
   int numVar = int.parse(variableController.text);
   int numCon = int.parse(constraintController.text);
+  bool isFilled = true;
 
   void setUp() {
     simplexController.setNum();
@@ -109,6 +108,13 @@ class _SimplexInputConstraintState extends State<SimplexInputConstraint> {
                   Column(
                     children: constraintInput,
                   ),
+                  Visibility(
+                    visible: !isFilled,
+                    child: Text(
+                      "You must input all number in the input field",
+                      style: TextStyle(color: Colors.red, fontFamily: 'Arial'),
+                    ),
+                  ),
                   SizedBox(height: 500.0),
                 ],
               ),
@@ -121,6 +127,31 @@ class _SimplexInputConstraintState extends State<SimplexInputConstraint> {
               Expanded(
                 child: BottomNextButton(
                   onPressed: () {
+                    //check isFilled
+                    for(int i = 0; i < numCon; i++){
+                      if(matrixB[i].text == ""){
+                        setState(() {
+                          isFilled = false;
+                          return;
+                        });
+                      }
+                      for(int j = 0; j < numVar; j++){
+                        if(matrixA[i][j].text == "") {
+                          setState(() {
+                            isFilled = false;
+                            return;
+                          });
+                        }
+                      }
+                    }
+                    for(int i = 0; i < numVar; i++){
+                      if(matrixC[i].text == ""){
+                        setState(() {
+                          isFilled = false;
+                          return;
+                        });
+                      }
+                    }
                     if(simplexController.simplexSolver != null)
                       simplexController.simplexSolver = null;
                     simplexController.createSimplexSolver();

@@ -106,14 +106,14 @@ class _SortingResultPageState extends State<SortingResultPage> {
                       margin: EdgeInsets.all(12.0),
                       width: double.infinity,
                       decoration: new BoxDecoration(
-                        color: Color(0xFFFFAF7A),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Text(
                         sortingController.printHint(),
                         style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'Montserrat',
+                          fontSize: 14.0,
+                          fontFamily: 'Arial',
                         ),
                       ),
                     ),

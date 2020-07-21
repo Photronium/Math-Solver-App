@@ -79,39 +79,41 @@ class _HomePageState extends State<HomePage> {
                       bottomRight: Radius.circular(10)),
                 ),
                 padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          width: 150.0,
-                          child: Text(
-                            "Hello my friend",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
+                child: Center(
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            width: 150.0,
+                            child: Text(
+                              "Hello my friend",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 5.0),
-                        Container(
-                          width: 150.0,
-                          child: Text(
-                            "What would you like to learn today?",
-                            style: TextStyle(fontFamily: 'Montserrat'),
+                          SizedBox(height: 5.0),
+                          Container(
+                            width: 150.0,
+                            child: Text(
+                              "What would you like to learn today?",
+                              style: TextStyle(fontFamily: 'Montserrat'),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/homepage-icon.png'),
-                      height: 200.0,
-                    ),
-                  ],
+                        ],
+                      ),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/homepage-icon.png'),
+                        height: 200.0,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

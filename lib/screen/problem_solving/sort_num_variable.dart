@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'bottom_button.dart';
-import 'sort_solver.dart';
 import 'sort_add_variable.dart';
+import 'sort_controller.dart';
 
 SortingController sortingController;
 
@@ -16,6 +17,7 @@ class SortingInputNumVariable extends StatefulWidget {
 
 class _SortingInputNumVariableState extends State<SortingInputNumVariable> {
   bool warnVariable = false;
+  bool warnEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,11 @@ class _SortingInputNumVariableState extends State<SortingInputNumVariable> {
                   autofocus: true,
                   decoration: InputDecoration(
                     hintText: '3-10',
-                    errorText: warnVariable ? 'The input number must be in range 3 - 10' : null,
+                    errorText: warnEmpty
+                        ? "Please input"
+                        : (warnVariable
+                            ? 'The input number must be in range 3 - 10'
+                            : null),
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(
@@ -59,7 +65,7 @@ class _SortingInputNumVariableState extends State<SortingInputNumVariable> {
                       FocusScope.of(context).requestFocus(FocusNode());
                     }
                   },
-                  controller: variableController,
+                  controller: elementController,
                 ),
               ],
             ),
@@ -72,18 +78,17 @@ class _SortingInputNumVariableState extends State<SortingInputNumVariable> {
               SizedBox(width: 60.0),
               Expanded(
                 child: BottomNextButton(onPressed: () {
-                  var varInt = int.parse(variableController.text);
-                  if(varInt >= 3 && varInt <= 10) {
-//                    if(simplexController != null){
-//                      simplexController = null;
-//                    }
-//                    simplexController = new SimplexController();
+                  setState(() {
+                    warnEmpty = elementController.text == "" ? true : false;
+                    if (!warnEmpty) {
+                      var varInt = int.parse(elementController.text);
+                      warnVariable = varInt < 3 && varInt > 10 ? true : false;
+                    }
+                  });
+                  if (!warnEmpty && !warnVariable) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SortingInputVariable(type: widget.type)));
-                  }
-                  else {
-                    warnVariable = true;
                   }
                 }),
               ),

@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:numbercrunching/screen/problem_solving/problem_solving_main.dart';
-import 'test_page/selecttest.dart';
-import 'learning_material/learning_material.dart';
+import 'package:flutter/material.dart';
+
 import 'drawer.dart';
+import 'learning_material/learning_material.dart';
+import 'not_available.dart';
+import 'problem_solving/problem_solving_main.dart';
+import 'test_page/selecttest.dart';
 
 class CoursePage extends StatefulWidget {
   final String title;
@@ -55,9 +57,16 @@ class _CoursePageState extends State<CoursePage> with SingleTickerProviderStateM
           final String label = tab.text.toLowerCase();
           if(label == "solver")
             return ProblemSolvingPage(title: widget.title);
-          else if(label == "test")
+          else if(label == "test") if (widget.title == 'Optimization') {
             return TestPage();
-          else return LearningMaterialPage();
+          } else
+            return NotAvailablePage();
+          else {
+            if (widget.title == 'Optimization') {
+              return LearningMaterialPage();
+            } else
+              return NotAvailablePage();
+          }
         }).toList(),
       ),
     );

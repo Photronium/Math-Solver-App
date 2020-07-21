@@ -11,7 +11,8 @@ class BottomBackButton extends StatelessWidget {
           child: Text("BACK", style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
-          )),
+            ),
+          ),
           onPressed: (){
             Navigator.pop(context);
           }

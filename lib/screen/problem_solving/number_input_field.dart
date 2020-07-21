@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 class NumberInputField extends StatefulWidget {
   NumberInputField({this.controller});
   final TextEditingController controller;
-  bool isFilled;
   @override
   _NumberInputFieldState createState() => _NumberInputFieldState();
 }

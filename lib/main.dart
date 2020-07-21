@@ -24,8 +24,8 @@ class NumberCrunching extends StatelessWidget {
         '/': (context) => HomePage(),
         '/optimization': (context) => CoursePage(title: 'Optimization'),
         '/solver/basic_simplex': (context) => SimplexInputNumberOfConstraint(),
-        '/solver/merge': (context) => SortingInputNumVariable(type: 2),
         '/solver/quick': (context) => SortingInputNumVariable(type: 1),
+        '/solver/merge': (context) => SortingInputNumVariable(type: 2),
         '/sorting': (context) => CoursePage(title: 'Sorting'),
       },
       title: "Algo Learning App",
@@ -45,3 +45,4 @@ class NumberCrunching extends StatelessWidget {
     );
   }
 }
+

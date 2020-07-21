@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final variableController = TextEditingController();
-final listVariableController = [
+final elementController = TextEditingController();
+final listElementController = [
   TextEditingController(),
   TextEditingController(),
   TextEditingController(),
@@ -30,7 +30,7 @@ class SortingController {
   }
   String printBefore(){
     if(type == 1){
-      //return quickSortSolver.printBefore();
+      return quickSortSolver.printBefore();
     }
     else if(type == 2){
       return mergeSortSolver.printBefore();
@@ -39,7 +39,7 @@ class SortingController {
   }
   String printAfter(){
     if(type == 1){
-      //return quickSortSolver.printBefore();
+      return quickSortSolver.printAfter();
     }
     else if(type == 2){
       return mergeSortSolver.printAfter();
@@ -48,7 +48,7 @@ class SortingController {
   }
   String printHint(){
     if(type == 1){
-      //return quickSortSolver.printBefore();
+      return quickSortSolver.printHint();
     }
     else if(type == 2){
       return mergeSortSolver.printHint();
@@ -57,7 +57,7 @@ class SortingController {
   }
   String printStepCount(){
     if(type == 1){
-      //return quickSortSolver.printBefore();
+      return quickSortSolver.printStepCount();
     }
     else if(type == 2){
       return mergeSortSolver.printStepCount();
@@ -66,7 +66,7 @@ class SortingController {
   }
   void calculateSort(){
     if(type == 1){
-      //return quickSortSolver.printBefore();
+      quickSortSolver.quickSort();
     }
     else if(type == 2){
       mergeSortSolver.mergeSort();
@@ -74,28 +74,32 @@ class SortingController {
   }
 }
 
-class MergeSortSolver {
+class SortSolver {
   List<int> arr;
   int numElement;
   int stepCount = 0;
   String hint = "";
-  MergeSortSolver() {
+  SortSolver(){
     arr = [];
-    numElement = int.parse(variableController.text);
+    numElement = int.parse(elementController.text);
     print(numElement);
     for (int i = 0; i < numElement; i++) {
-      arr.add(int.parse(listVariableController[i].text));
+      arr.add(int.parse(listElementController[i].text));
     }
   }
 
-  void mergeSort() {
-    sort(0, arr.length - 1);
+  String printHint(){
+    return hint;
+  }
+
+  String printStepCount(){
+    return stepCount.toString();
   }
 
   String printBefore(){
     String temp = "(";
     for(int i = 0; i < numElement; i++){
-      temp += listVariableController[i].text;
+      temp += listElementController[i].text;
       if(i + 1 != numElement){
         temp += " , ";
       }
@@ -114,6 +118,13 @@ class MergeSortSolver {
     }
     temp += ")";
     return temp;
+  }
+}
+
+class MergeSortSolver extends SortSolver{
+  void mergeSort() {
+    hint += "Initial array : " + printBefore() + "\n";
+    sort(0, arr.length - 1);
   }
 
   void merge(int l, int m, int r) {
@@ -161,7 +172,7 @@ class MergeSortSolver {
       k++;
     }
 
-    hint += "   We have (";
+    hint += "\n(";
     for(int i = 0; i < numElement; i++){
       hint += arr[i].toString();
       if(i+1 != numElement){
@@ -179,29 +190,66 @@ class MergeSortSolver {
       int m = (l + r) ~/ 2;
       hint += "In sort ($l, $r){\n";
       stepCount++;
-      if(l < m)
-        hint += "   Sort the first half from $l to $m\n";
       // Sort first and second halves
       sort(l, m);
-      if(m + 1 < r)
-        hint += "   Sort the second half from ${m+1} to $r\n";
       sort(m + 1, r);
-      hint += "   Merge the sorted halves in ($l, $m) with (${m+1}, $r).";
       // Merge the sorted halves
       merge(l, m, r);
-      hint += "} finished sort ($l, $r)\n\n";
+      hint += "} finished sort ($l, $r)\n";
     }
-  }
-
-  String printHint(){
-    return hint;
-  }
-
-  String printStepCount(){
-    return stepCount.toString();
   }
 }
 
-class QuickSortSolver {
+class QuickSortSolver extends SortSolver {
+  int partition(int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1); // index of smaller element
+    for (int j = low; j < high; j++) {
+      // If current element is smaller than the pivot
+      if (arr[j] < pivot) {
+        i++;
 
+        // swap arr[i] and arr[j]
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+    }
+
+    // swap arr[i+1] and arr[high] (or pivot)
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return i + 1;
+  }
+
+  /* The main function that implements QuickSort()
+      arr[] --> Array to be sorted,
+      low  --> Starting index,
+      high  --> Ending index */
+  void sort(int low, int high) {
+    if (low < high) {
+      /* pi is partitioning index, arr[pi] is
+              now at right place */
+      hint += "In sort ($low, $high){\n";
+      stepCount++;
+      int pi = partition(low, high);
+      hint += "   Choose ${arr[pi]} as the partitioning value\n";
+      // Recursively sort elements before
+      // partition and after partition
+      hint += "   Sort before ${arr[pi]}\n";
+      sort(low, pi - 1);
+      hint += "   " + printAfter() + "\n";
+      hint += "   Sort after ${arr[pi]}\n";
+      sort(pi + 1, high);
+      hint += "   " + printAfter() + "\n";
+      hint += "} finished ($low, $high)\n";
+    }
+  }
+
+  void quickSort(){
+    hint += "Initial array : " + printBefore() + "\n";
+    sort(0, arr.length - 1);
+  }
 }

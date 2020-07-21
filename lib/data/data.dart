@@ -123,13 +123,13 @@ Course sorting = Course(
   solutionList: [
     Type(
         name: "Quick Sort",
-        description: "First sorting algorithm",
+        description: "Picks an element as pivot and partitions the given array around the picked pivot.",
         image: "assets/images/iconSimplexMethod-06.png",
         next: '/solver/quick',
     ),
     Type(
         name: "Merge Sort",
-        description: "Second sorting algorithm",
+        description: "Divides input array in two halves, calls itself for the two halves and then merges the two sorted halves",
         image: "assets/images/iconSimplexMethod-06.png",
         next: '/solver/merge',
     ),
