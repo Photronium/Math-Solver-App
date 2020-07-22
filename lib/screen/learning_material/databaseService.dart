@@ -18,3 +18,20 @@ Future getMethod(String method) async {
     return Rmethod;
 
 }
+
+// get Sorting mechanism from database
+
+Future getSorting(String method) async {
+
+    var db = Firestore.instance;
+    QuerySnapshot qn = await db.collection("sorting").getDocuments();
+    DocumentSnapshot Rmethod;
+
+    int i = 0;
+    qn.documents.forEach((document) {
+        if (document.data['name'] == method) Rmethod = document;
+    });
+
+    return Rmethod;
+
+}

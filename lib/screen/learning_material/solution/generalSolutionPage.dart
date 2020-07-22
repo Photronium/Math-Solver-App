@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:numbercrunching/screen/learning_material/example/examPage.dart';
 
 Future getMethod(String method) async {
   var db = Firestore.instance;
@@ -16,10 +18,22 @@ Future getMethod(String method) async {
   return Rmethod;
 }
 
-class generalSolutionPage extends StatelessWidget {
+class generalSolutionPage extends StatefulWidget {
   final String method;
 
   generalSolutionPage({this.method});
+
+  @override
+  _generalSolutionPageState createState() => _generalSolutionPageState(method);
+}
+
+class _generalSolutionPageState extends State<generalSolutionPage> {
+
+  String _method;
+
+  _generalSolutionPageState(String method){
+    _method = method;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,39 +54,23 @@ class generalSolutionPage extends StatelessWidget {
           children: <Widget>[
             Container(
               child: FutureBuilder(
-                  future: getMethod(method),
+                  future: getMethod(_method),
                   builder: (
                     _,
                     snapshot,
                   ) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
-                        child: Text("Loading ..."),
+                        child: CircularProgressIndicator(),
                       );
                     } else {
                       return Column(
                         children: <Widget>[
-                          TeXView(
-                            child: TeXViewContainer(
-                              child: TeXViewDocument(
-                                  snapshot.data.data['TeXSolution']
-                              ),
-                              style:  TeXViewStyle(
-                                  fontStyle: TeXViewFontStyle(
-                                    fontWeight: TeXViewFontWeight.w500,
-                                    fontSize: 15,
-                                  ),
-                                  contentColor: Colors.black26,
-
-                                  margin: TeXViewMargin.all(10),
-                                  padding: TeXViewPadding.all(12)
-                              ),
-                            ),
-                            renderingEngine: TeXViewRenderingEngine.katex(),
-                          ),
-                          Image(
-                            fit: BoxFit.contain,
-                            image: AssetImage('assets/images/simplex tableau.png'),
+                          Image.network(snapshot.data.data['Solution'], fit: BoxFit.fitWidth,),
+                          SizedBox(height: 10.0),
+                          Container(
+                              child: Text(snapshot.data.data['SolutionText'], style: TextStyle(fontWeight: FontWeight.w600),),
+                            padding: EdgeInsets.all(15.0),
                           )
                         ],
                       );
@@ -94,7 +92,7 @@ class generalSolutionPage extends StatelessWidget {
                 ),
                 color: Colors.green,
                 onPressed: () {
-                  //Navigator.push(context, new MaterialPageRoute(builder: (context) => generalSolutionPage(method: method,)));
+                  Navigator.push(context, new MaterialPageRoute(builder: (context) => ExamplePage(method: _method)));
                 },
               ),
             ),

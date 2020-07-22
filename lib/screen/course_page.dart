@@ -62,10 +62,7 @@ class _CoursePageState extends State<CoursePage> with SingleTickerProviderStateM
           } else
             return NotAvailablePage();
           else {
-            if (widget.title == 'Optimization') {
-              return LearningMaterialPage();
-            } else
-              return NotAvailablePage();
+            return LearningMaterialPage(type: widget.title,);
           }
         }).toList(),
       ),

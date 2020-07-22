@@ -38,7 +38,7 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: Text("Loading ..."),
+                      child: CircularProgressIndicator(),
                     );
                   } else {
                     return Container(
@@ -61,25 +61,8 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                                   ),
                                 ]),
                           ),
-                          TeXView(
-                            child: TeXViewContainer(
-                              child: TeXViewDocument(
-                                  snapshot.data.data['TeX']
-                              ),
-                                  style:  TeXViewStyle(
-                                    fontStyle: TeXViewFontStyle(
-                                      fontWeight: TeXViewFontWeight.w500,
-                                      fontSize: 17,
-                                    ),
-                                    contentColor: Colors.black26,
-                                    backgroundColor: Colors.greenAccent,
-                                    margin: TeXViewMargin.all(10),
-                                    borderRadius: TeXViewBorderRadius.all(20),
-                                    padding: TeXViewPadding.all(12)
-                                  ),
-                            ),
-                              renderingEngine: TeXViewRenderingEngine.katex(),
-                            ),
+                          SizedBox(height: 5.0),
+                          Image.network(snapshot.data.data['image'])
                         ],
                       ),
                       margin: EdgeInsets.all(10.0),
@@ -105,10 +88,8 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                   ),
                   color: Colors.green,
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (_) => FeedbackPage()));
+                    Navigator.push(context,
+                        new MaterialPageRoute(builder: (_) => FeedbackPage()));
                   },
                 ),
                 RaisedButton(
@@ -118,7 +99,12 @@ class DetailedDescriptionState extends State<DetailedDescription> {
                   ),
                   color: Colors.green,
                   onPressed: () {
-                    Navigator.push(context, new MaterialPageRoute(builder: (context) => generalSolutionPage(method: method,)));
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => generalSolutionPage(
+                                  method: method,
+                                )));
                   },
                 ),
               ],
