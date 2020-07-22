@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../drawer.dart';
-import 'bottom_button.dart';
-import 'simplex_solver.dart';
-import 'ps_3_input_var_con.dart';
 
-class InputConstraintVariable extends StatefulWidget {
+import 'bottom_button.dart';
+import 'simplex_add_equation_condition.dart';
+import 'simplex_controller.dart';
+
+SimplexController simplexController;
+
+class SimplexInputNumberOfConstraint extends StatefulWidget {
   @override
-  _InputConstraintVariableState createState() => _InputConstraintVariableState();
+  _SimplexInputNumberOfConstraintState createState() =>
+      _SimplexInputNumberOfConstraintState();
 }
 
-class _InputConstraintVariableState extends State<InputConstraintVariable> {
+class _SimplexInputNumberOfConstraintState
+    extends State<SimplexInputNumberOfConstraint> {
   bool warnVariable = false;
-  bool warnConstraints = false;
+  bool warnConstraint = false;
+  bool warnEmptyVariable = false;
+  bool warnEmptyConstraint = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
         title: Text('Problem Solving'),
         centerTitle: true,
       ),
-      drawer: DrawTab(),
+//      drawer: DrawTab(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,13 +40,18 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text('NUMBER OF VARIABLES', style: TextStyle(color: Colors.black87)),
+                  child: Text('NUMBER OF VARIABLES',
+                      style: TextStyle(color: Colors.black87)),
                 ),
                 TextFormField(
                   autofocus: true,
                   decoration: InputDecoration(
                     hintText: '2-5',
-                    errorText: warnVariable ? 'The input number must be in range 2 - 5' : null,
+                    errorText: warnEmptyVariable
+                        ? "Please Input"
+                        : (warnVariable
+                            ? 'The input number must be in range 2 - 5'
+                            : null),
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(
@@ -62,13 +73,18 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
                 SizedBox(height: 10.0),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text('NUMBER OF CONSTRAINTS', style: TextStyle(color: Colors.black87)),
+                  child: Text('NUMBER OF CONSTRAINTS',
+                      style: TextStyle(color: Colors.black87)),
                 ),
                 TextField(
                   autofocus: true,
                   decoration: InputDecoration(
                     hintText: '2-10',
-                    errorText: warnConstraints ? 'The input number must be in range 2 - 10' : null,
+                    errorText: warnEmptyConstraint
+                        ? "Please input"
+                        : (warnConstraint
+                        ? 'The input number must be in range 2 - 10'
+                        : null),
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(
@@ -98,35 +114,31 @@ class _InputConstraintVariableState extends State<InputConstraintVariable> {
               SizedBox(width: 60.0),
               Expanded(
                 child: BottomNextButton(onPressed: () {
-                  var varInt = int.parse(variableController.text);
-                  var conInt = int.parse(constraintController.text);
-                  if(varInt >= 2 && varInt <= 5 && conInt >= 2 && conInt <= 10) {
+                  setState(() {
+                    warnEmptyVariable =
+                    variableController.text == "" ? true : false;
+                    if (!warnEmptyVariable) {
+                      var varInt = int.parse(variableController.text);
+                      warnVariable = varInt < 2 || varInt > 5 ? true : false;
+                    }
+                    warnEmptyConstraint =
+                    constraintController.text == "" ? true : false;
+                    if (!warnEmptyConstraint) {
+                      var conInt = int.parse(constraintController.text);
+                      warnConstraint = conInt < 2 || conInt > 10 ? true : false;
+                    }
+                  });
+                  if (!warnEmptyVariable && !warnEmptyConstraint &&
+                      !warnVariable && !warnConstraint) {
+                    if (simplexController != null) {
+                      simplexController = null;
+                    }
+                    simplexController = new SimplexController();
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => InputConstraint()));
-                  }
-                  else {
-                    if(varInt <= 2 || varInt > 5){
-                      setState(() {
-                        warnVariable = true;
-                      });
+                        MaterialPageRoute(
+                            builder: (context) => SimplexInputConstraint()));
                     }
-                    else {
-                      setState(() {
-                        warnVariable = false;
-                      });
-                    }
-                    if(conInt <= 2 || conInt > 10){
-                      setState(() {
-                        warnConstraints = true;
-                      });
-                    }
-                    else {
-                      setState(() {
-                        warnConstraints = false;
-                      });
-                    }
-                  }
                 }),
               ),
             ],

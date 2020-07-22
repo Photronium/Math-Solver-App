@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'drawer.dart';
-import 'data.dart';
+import '../data/data.dart';
 
 class DashOption extends StatelessWidget {
   final String image;
   final String title;
-  final Widget next;
+  final String next;
 
   DashOption({this.image, this.title, this.next});
 
@@ -17,11 +17,6 @@ class DashOption extends StatelessWidget {
         margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           color: Colors.white,
-//        borderRadius: BorderRadius.only(
-//            topLeft: Radius.circular(10),
-//            topRight: Radius.circular(10),
-//            bottomLeft: Radius.circular(10),
-//            bottomRight: Radius.circular(10)),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -33,8 +28,7 @@ class DashOption extends StatelessWidget {
         ),
         child: FlatButton(
           onPressed: () {
-            Navigator.push(
-                context, new MaterialPageRoute(builder: (context) => next));
+            Navigator.pushNamed(context, next);
           },
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -85,39 +79,41 @@ class _HomePageState extends State<HomePage> {
                       bottomRight: Radius.circular(10)),
                 ),
                 padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          width: 150.0,
-                          child: Text(
-                            "Hello my friend",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
+                child: Center(
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            width: 150.0,
+                            child: Text(
+                              "Hello my friend",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 5.0),
-                        Container(
-                          width: 150.0,
-                          child: Text(
-                            "What would you like to learn today?",
-                            style: TextStyle(fontFamily: 'Montserrat'),
+                          SizedBox(height: 5.0),
+                          Container(
+                            width: 150.0,
+                            child: Text(
+                              "What would you like to learn today?",
+                              style: TextStyle(fontFamily: 'Montserrat'),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/homepage-icon.png'),
-                      height: 200.0,
-                    ),
-                  ],
+                        ],
+                      ),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/homepage-icon.png'),
+                        height: 200.0,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

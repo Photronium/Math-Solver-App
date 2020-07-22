@@ -262,13 +262,13 @@ class _PerformanceScore extends State<PerformanceScore> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 320.0,
-        child: FlatButton(
+    return  FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
+      child:  Container(
+        padding: EdgeInsets.symmetric(vertical: 16),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -297,12 +297,13 @@ class _PerformanceScore extends State<PerformanceScore> {
                       style: TextStyle(fontSize: 16.0)),
                 ),
               ]),
+      ),
           onPressed: () {
             setState(() {
               userData.switchMode();
             });
           },
-        ));
+        );
   }
 }
 
@@ -343,13 +344,14 @@ class _ScoreChart extends State<ScoreChart> {
 
   Widget build(BuildContext context) {
     return Container(
-        height: 500.0,
         padding: EdgeInsets.only(top: padding),
         child: FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
+          child:  Container(
+          padding: EdgeInsets.symmetric(vertical: 16),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -398,6 +400,7 @@ class _ScoreChart extends State<ScoreChart> {
                   style: TextStyle(fontSize: 14.0),
                 ),
               ]),
+          ),
           onPressed: () {
             setState(() {
               userData.switchMode();
@@ -437,13 +440,14 @@ class _PerformanceHistory extends State<PerformanceHistory> {
 
   Widget build(BuildContext context) {
     return Container(
-        height: 250.0,
         padding: EdgeInsets.only(top: padding),
         child: FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
+          child: Container(
+    padding:EdgeInsets.symmetric(vertical: 16),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -494,6 +498,7 @@ class _PerformanceHistory extends State<PerformanceHistory> {
                   ],
                 ),
               ]),
+          ),
           onPressed: () {
             print("Simplex");
           },
@@ -516,7 +521,6 @@ class ScorePredictor extends StatefulWidget {
 class _ScorePredictor extends State<ScorePredictor> {
   bool showFuture = false;
   bool showGraph = false;
-  double widgetHeight = 218;
   DataReader userData = DataReader();
 
   var Blocked = Column(
@@ -603,7 +607,6 @@ class _ScorePredictor extends State<ScorePredictor> {
         ]);
 
     return Container(
-        height: widgetHeight,
         padding: EdgeInsets.only(top: padding),
         child: FlatButton(
           shape: RoundedRectangleBorder(
@@ -611,7 +614,7 @@ class _ScorePredictor extends State<ScorePredictor> {
           ),
           color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.only(top: 18),
+            padding: EdgeInsets.symmetric(vertical: 18),
             child: Column(children: <Widget>[
               showFuture ? Unblocked : Blocked,
               showFuture && !showGraph
@@ -627,11 +630,9 @@ class _ScorePredictor extends State<ScorePredictor> {
             setState(() {
               if (!showFuture) {
                 showFuture = true;
-                widgetHeight = 330;
               }
               else {
                 showGraph = true;
-                widgetHeight = 680;
               }
             });
           },

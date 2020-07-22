@@ -6,11 +6,11 @@ import 'package:numbercrunching/screen/test_page/showresult.dart';
 
 import '../drawer.dart';
 
-class GetJson extends StatelessWidget {
+class CreateQuestion extends StatelessWidget {
 
   String method;
 
-  GetJson(this.method);
+  CreateQuestion(this.method);
 
   String methodchosen;
 
@@ -73,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
     "d": Colors.blue,
   };
 
-  genrandomarray() {
+  genRandomArray() {
     var distinctIds = [];
     var rand = new Random() ;
     for (int i = 0;;) {
@@ -91,7 +91,7 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void initState() {
     startTimeout();
-    genrandomarray();
+    genRandomArray();
     i= random_array[0];
     super.initState();
   }
@@ -103,7 +103,7 @@ class _QuizPageState extends State<QuizPage> {
 
   final interval = const Duration(seconds: 1);
 
-  final int timerMaxSeconds = 60;
+  final int timerMaxSeconds = 1800;
 
   int currentSeconds = 0;
 
@@ -119,13 +119,14 @@ class _QuizPageState extends State<QuizPage> {
         {
           timer.cancel();
           canceltimer = true;
-          j = 11;
+          j = 10;
+          nextQuestion();
         }
       });
     });
   }
 
-  void nextquestion() {
+  void nextQuestion() {
     setState(() {
       if (j < 10) {
         i = random_array[j];
@@ -143,7 +144,7 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
-  void checkanswer(String k) {
+  void checkAnswer(String k) {
     if (mydata[2][i.toString()] == mydata[1][i.toString()][k]) {
       marks = marks + 1;
       colortoshow = right;
@@ -156,17 +157,17 @@ class _QuizPageState extends State<QuizPage> {
     });
 
     // changed timer duration to 1 second
-    Timer(Duration(seconds: 1), nextquestion);
+    Timer(Duration(seconds: 1), nextQuestion);
   }
 
-  Widget choicebutton(String k) {
+  Widget selectAnswer(String k) {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 20.0,
       ),
       child: MaterialButton(
-        onPressed: () => checkanswer(k),
+        onPressed: () => checkAnswer(k),
         child: Text(mydata[1][i.toString()][k],
             style: TextStyle(
               color: Colors.white,
@@ -193,10 +194,11 @@ class _QuizPageState extends State<QuizPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Container(
+              color: Colors.white,
               padding: EdgeInsets.all(15.0),
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.centerLeft,
               child: Text(mydata[0][i.toString()],
                 style: TextStyle(
                   fontSize: 16.0,
@@ -205,15 +207,15 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
           Expanded(
-            flex: 6,
+            flex: 5,
             child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  choicebutton('a'),
-                  choicebutton('b'),
-                  choicebutton('c'),
-                  choicebutton('d'),
+                  selectAnswer('a'),
+                  selectAnswer('b'),
+                  selectAnswer('c'),
+                  selectAnswer('d'),
                 ],
               ),
             ),

@@ -2,10 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class NumberInputField extends StatelessWidget {
+class NumberInputField extends StatefulWidget {
   NumberInputField({this.controller});
-  final controller;
-  bool isFilled;
+  final TextEditingController controller;
+  @override
+  _NumberInputFieldState createState() => _NumberInputFieldState();
+}
+
+class _NumberInputFieldState extends State<NumberInputField> {
+  FocusNode myFocusNode;
+
+  @override
+  void initState(){
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +27,7 @@ class NumberInputField extends StatelessWidget {
           fillColor: Colors.white,
           filled: true,
           focusedBorder:
-              UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
+          UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)),
         ),
         textDirection: TextDirection.ltr,
         keyboardType: TextInputType.numberWithOptions(signed: true),
@@ -24,13 +35,28 @@ class NumberInputField extends StatelessWidget {
           WhitelistingTextInputFormatter.digitsOnly,
           BlacklistingTextInputFormatter.singleLineFormatter,
         ],
-        onChanged: (val) {
-          if (val.length >= 5) {
+        onTap: (){
+          myFocusNode.requestFocus();
+        },
+        onChanged: (text) {
+          if (text.length >= 5) {
             FocusScope.of(context).requestFocus(FocusNode());
           }
         },
-        controller: controller,
+        controller: widget.controller,
       ),
     );
   }
 }
+
+
+//class NumberInputField extends StatelessWidget {
+//
+//
+//
+//
+//  @override
+//  Widget build(BuildContext context) {
+//
+//  }
+//}
