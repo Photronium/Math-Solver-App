@@ -45,24 +45,22 @@ class OptionElement extends StatelessWidget {
 
 class OptionWidgets extends StatelessWidget {
   final String title;
-
   OptionWidgets({this.title});
-
   @override
   Widget build(BuildContext context) {
     List<Widget> typeListWidget = List<Widget>();
-    List<Type> solutionList;
+    List<Solver> solverList;
     if (title == 'Optimization')
-      solutionList = optimization.getTypeList();
+      solverList = optimization.getTypeList();
     else if (title == 'Sorting')
-      solutionList = sorting.getTypeList();
-    for (int i = 0; i < solutionList.length; i++) {
+      solverList = sorting.getTypeList();
+    for (int i = 0; i < solverList.length; i++) {
       typeListWidget.add(
         OptionElement(
-          name: solutionList[i].getName(),
-          description: solutionList[i].getDescription(),
-          image: solutionList[i].getImage(),
-          next: solutionList[i].getNext(),
+          name: solverList[i].getName(),
+          description: solverList[i].getDescription(),
+          image: solverList[i].getImage(),
+          next: solverList[i].getNext(),
           context: context,
         ),
       );
