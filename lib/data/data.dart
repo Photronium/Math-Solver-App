@@ -1,56 +1,52 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import '../screen/course_page.dart';
-
-class Course {
+class Type {
   String _name;
   String _image;
   String _next;
-  List<Type> _solutionList;
+  List<Solver> _solverList;
 
-  Course({String name, String image, String next, List<Type> solutionList}){
+  Type({String name, String image, String next, List<Solver> solutionList}) {
     this._name = name;
     this._image = image;
     this._next = next;
-    this._solutionList = solutionList;
+    this._solverList = solutionList;
   }
 
-  void setName(String n){
+  void setName(String n) {
     this._name = n;
   }
 
-  void setImage(String i){
+  void setImage(String i) {
     this._image = i;
   }
 
-  void setNext(String n){
+  void setNext(String n) {
     this._next = n;
   }
 
-  String getName(){
+  String getName() {
     return this._name;
   }
 
-  String getImage(){
+  String getImage() {
     return this._image;
   }
 
-  List<Type> getTypeList(){
-    return this._solutionList;
+  List<Solver> getTypeList() {
+    return this._solverList;
   }
 
-  String getNext(){
+  String getNext() {
     return this._next;
   }
 }
 
-class Type {
+class Solver {
   String _name;
   String _description;
   String _image;
   String _next;
 
-  Type({String name, String description, String image, String next}) {
+  Solver({String name, String description, String image, String next}) {
     this._name = name;
     this._description = description;
     this._image = image;
@@ -69,7 +65,7 @@ class Type {
     this._image = i;
   }
 
-  void setNext(String n){
+  void setNext(String n) {
     this._next = n;
   }
 
@@ -85,23 +81,24 @@ class Type {
     return this._image;
   }
 
-  String getNext(){
+  String getNext() {
     return this._next;
   }
 }
 
 //TODO: Define type
 //TODO: Optimization declaration
-Course optimization = Course(
+Type optimization = Type(
   name: "Optimization",
   image: 'assets/images/optimization-icon.png',
-  next:  '/optimization',
+  next: '/optimization',
   solutionList: [
-    Type(
-        name: "Basic Simplex Method",
-        description: "Using simplex method to solve problem with all positive input",
-        image: "assets/images/iconSimplexMethod-06.png",
-        next: '/solver/basic_simplex',
+    Solver(
+      name: "Basic Simplex Method",
+      description:
+          "Using simplex method to solve problem with all positive input",
+      image: "assets/images/iconSimplexMethod-06.png",
+      next: '/solver/basic_simplex',
     ),
 //    Type(
 //        name: "Branch and Bound",
@@ -116,22 +113,24 @@ Course optimization = Course(
   ],
 );
 
-Course sorting = Course(
+Type sorting = Type(
   name: "Sorting",
   image: 'assets/images/sorting-icon.png',
   next: '/sorting',
   solutionList: [
-    Type(
-        name: "Quick Sort",
-        description: "Picks an element as pivot and partitions the given array around the picked pivot.",
-        image: "assets/images/iconSimplexMethod-06.png",
-        next: '/solver/quick',
+    Solver(
+      name: "Quick Sort",
+      description:
+          "Picks an element as pivot and partitions the given array around the picked pivot.",
+      image: "assets/images/iconSimplexMethod-06.png",
+      next: '/solver/quick',
     ),
-    Type(
-        name: "Merge Sort",
-        description: "Divides input array in two halves, calls itself for the two halves and then merges the two sorted halves",
-        image: "assets/images/iconSimplexMethod-06.png",
-        next: '/solver/merge',
+    Solver(
+      name: "Merge Sort",
+      description:
+          "Divides input array in two halves, calls itself for the two halves and then merges the two sorted halves",
+      image: "assets/images/iconSimplexMethod-06.png",
+      next: '/solver/merge',
     ),
   ],
 );
