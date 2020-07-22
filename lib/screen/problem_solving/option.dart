@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/AndroidStudioProjects/Math-Solver-App/lib/data/data.dart';
-import 'package:numbercrunching/screen/problem_solving/simplex_num_variable_constraint.dart';
+import '../../data/data.dart';
 
 class OptionElement extends StatelessWidget {
   final String image;
