@@ -196,6 +196,7 @@ class _QuizPageState extends State<QuizPage> {
           Expanded(
             flex: 4,
             child: Container(
+              color: Colors.white,
               padding: EdgeInsets.all(15.0),
               alignment: Alignment.centerLeft,
               child: Text(mydata[0][i.toString()],
