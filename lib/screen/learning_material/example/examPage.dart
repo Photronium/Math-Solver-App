@@ -175,7 +175,7 @@ class ExamplePageState extends State<ExamplePage>
                       ),
                       color: Colors.green,
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).popUntil((route) => route.isFirst);
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
