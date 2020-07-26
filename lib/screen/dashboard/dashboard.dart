@@ -89,7 +89,7 @@ class TheOracle {
     List<double> result = [];
     double temp;
     double x;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 30; i++) {
       for (int s = 0; s < 4; s++) {
         temp = 0;
         x = i + 0.25 * s;
@@ -240,8 +240,14 @@ class _Dashboard extends State<Dashboard> {
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(padding),
           children: <Widget>[
-            PerformanceScore(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 40),
+              child: Image(
+                image: AssetImage('assets/images/dashboard-art.png'),
+              ),
+            ),
             ScoreChart(),
+            PerformanceScore(),
             PerformanceHistory(),
             ScorePredictor()
           ],
@@ -262,13 +268,15 @@ class _PerformanceScore extends State<PerformanceScore> {
 
   @override
   Widget build(BuildContext context) {
-    return  FlatButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          color: Colors.white,
-      child:  Container(
-        padding: EdgeInsets.symmetric(vertical: 16),
+    return Container(
+      padding: EdgeInsets.only(top: padding),
+      child: FlatButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        color: Colors.white,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -297,13 +305,14 @@ class _PerformanceScore extends State<PerformanceScore> {
                       style: TextStyle(fontSize: 16.0)),
                 ),
               ]),
+        ),
+        onPressed: () {
+          setState(() {
+            userData.switchMode();
+          });
+        },
       ),
-          onPressed: () {
-            setState(() {
-              userData.switchMode();
-            });
-          },
-        );
+    );
   }
 }
 
@@ -350,56 +359,56 @@ class _ScoreChart extends State<ScoreChart> {
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.white,
-          child:  Container(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child:
-                      Text("Score Analysis", style: TextStyle(fontSize: 20.0)),
-                ),
-                SizedBox(
-                  height: 350,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      for (var i = 0; i < chartValues.length; i++)
-                        Column(children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.all(0.5),
-                              child: Column(children: <Widget>[
-                                Container(
-                                  color: Color.fromRGBO(0, 0, 0, 0),
-                                  width: 4,
-                                  height: 300 - chartValues[i] * 30,
-                                ),
-                                Container(
-                                  color: Color.fromRGBO(
-                                      50,
-                                      (chartValues[i] * 25).toInt(),
-                                      255,
-                                      i % 16 == 0 ? 1 : 0.2),
-                                  width: 4,
-                                  height: chartValues[i] * 30,
-                                ),
-                              ])),
-                          Padding(
-                            padding: EdgeInsets.only(top: 4),
-                            child: Text(
-                                i % 16 == 0 ? chartValues[i].toString() : ""),
-                          )
-                        ])
-                    ],
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text("Score Analysis",
+                        style: TextStyle(fontSize: 20.0)),
                   ),
-                ),
-                Text(
-                  userData.defaultt,
-                  style: TextStyle(fontSize: 14.0),
-                ),
-              ]),
+                  SizedBox(
+                    height: 350,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        for (var i = 0; i < chartValues.length; i++)
+                          Column(children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.all(0.5),
+                                child: Column(children: <Widget>[
+                                  Container(
+                                    color: Color.fromRGBO(0, 0, 0, 0),
+                                    width: 4,
+                                    height: 300 - chartValues[i] * 30,
+                                  ),
+                                  Container(
+                                    color: Color.fromRGBO(
+                                        50,
+                                        (chartValues[i] * 25).toInt(),
+                                        255,
+                                        i % 16 == 0 ? 1 : 0.2),
+                                    width: 4,
+                                    height: chartValues[i] * 30,
+                                  ),
+                                ])),
+                            Padding(
+                              padding: EdgeInsets.only(top: 4),
+                              child: Text(
+                                  i % 16 == 0 ? chartValues[i].toString() : ""),
+                            )
+                          ])
+                      ],
+                    ),
+                  ),
+                  Text(
+                    userData.defaultt,
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                ]),
           ),
           onPressed: () {
             setState(() {
@@ -447,57 +456,57 @@ class _PerformanceHistory extends State<PerformanceHistory> {
           ),
           color: Colors.white,
           child: Container(
-    padding:EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text("Performance History",
-                      style: TextStyle(fontSize: 20.0)),
-                ),
-                Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Container(
-                          color: Color.fromRGBO(
-                              50, (average * 25).toInt(), 255, 1),
-                          width: average * 25,
-                          height: 20,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text("Performance History",
+                        style: TextStyle(fontSize: 20.0)),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Container(
+                            color: Color.fromRGBO(
+                                50, (average * 25).toInt(), 255, 1),
+                            width: average * 25,
+                            height: 20,
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Container(
-                          color: Color.fromRGBO(
-                              50, (oldAverage * 25).toInt(), 255, 1),
-                          width: oldAverage * 25,
-                          height: 20,
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Container(
+                            color: Color.fromRGBO(
+                                50, (oldAverage * 25).toInt(), 255, 1),
+                            width: oldAverage * 25,
+                            height: 20,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 26),
-                      child: Row(children: <Widget>[
-                        Text("You performed ",
-                            style: TextStyle(fontSize: 16.0)),
-                        Text((100 * difference).toInt().toString(),
-                            style: TextStyle(fontSize: 19.0)),
-                        Text(difference > 0 ? "% better" : "% worse",
-                            style: TextStyle(fontSize: 16.0)),
-                        Text(" than before", style: TextStyle(fontSize: 16.0))
-                      ]),
-                    ),
-                  ],
-                ),
-              ]),
+                      Padding(
+                        padding: EdgeInsets.only(top: 26),
+                        child: Row(children: <Widget>[
+                          Text("You performed ",
+                              style: TextStyle(fontSize: 16.0)),
+                          Text((100 * difference).toInt().toString(),
+                              style: TextStyle(fontSize: 19.0)),
+                          Text(difference > 0 ? "% better" : "% worse",
+                              style: TextStyle(fontSize: 16.0)),
+                          Text(" than before", style: TextStyle(fontSize: 16.0))
+                        ]),
+                      ),
+                    ],
+                  ),
+                ]),
           ),
           onPressed: () {
             print("Simplex");
@@ -557,12 +566,12 @@ class _ScorePredictor extends State<ScorePredictor> {
           ),
           Column(
             children: <Widget>[
-                Text(
-                  userData.predict().toStringAsFixed(2),
-                  style: TextStyle(
-                      fontSize: 140.0,
-                      foreground: Paint()..shader = linearGradient),
-                ),
+              Text(
+                userData.predict().toStringAsFixed(2),
+                style: TextStyle(
+                    fontSize: 140.0,
+                    foreground: Paint()..shader = linearGradient),
+              ),
               Padding(
                 padding: EdgeInsets.only(top: 18),
                 child: Text("Don't let this affect your actual result",
@@ -578,7 +587,8 @@ class _ScorePredictor extends State<ScorePredictor> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 12),
-            child: Text("Score Trend", style: TextStyle(fontSize: 20.0, color: Colors.blue)),
+            child: Text("Score Trend",
+                style: TextStyle(fontSize: 20.0, color: Colors.blue)),
           ),
           SizedBox(
             height: 350,
@@ -630,8 +640,7 @@ class _ScorePredictor extends State<ScorePredictor> {
             setState(() {
               if (!showFuture) {
                 showFuture = true;
-              }
-              else {
+              } else {
                 showGraph = true;
               }
             });
