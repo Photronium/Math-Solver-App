@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                               "Hello my friend",
                               style: TextStyle(
                                 fontSize: 24.0,
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Monserrat',
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
