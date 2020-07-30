@@ -3,11 +3,21 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// This method is used to get a method from the database
-Future getMethod(String method) async {
+class DatabaseService {
+  static final DatabaseService _databaseService = DatabaseService._internal();
 
-    var db = Firestore.instance;
-    QuerySnapshot qn = await db.collection("methods").getDocuments();
+  factory DatabaseService() {
+    return _databaseService;
+  }
+
+  DatabaseService._internal();
+
+  var databaseReference = Firestore.instance;
+
+  // This method is used to get a method from the database
+  Future getMethod(String method) async {
+    QuerySnapshot qn =
+        await databaseReference.collection("methods").getDocuments();
     DocumentSnapshot Rmethod;
 
     int i = 0;
@@ -16,22 +26,20 @@ Future getMethod(String method) async {
     });
 
     return Rmethod;
-
-}
+  }
 
 // get Sorting mechanism from database
 
-Future getSorting(String method) async {
-
-    var db = Firestore.instance;
-    QuerySnapshot qn = await db.collection("sorting").getDocuments();
+  Future getSorting(String method) async {
+    QuerySnapshot qn =
+        await databaseReference.collection("sorting").getDocuments();
     DocumentSnapshot Rmethod;
 
     int i = 0;
     qn.documents.forEach((document) {
-        if (document.data['name'] == method) Rmethod = document;
+      if (document.data['name'] == method) Rmethod = document;
     });
 
     return Rmethod;
-
+  }
 }

@@ -47,7 +47,7 @@ class ExamplePageState extends State<ExamplePage>
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               FutureBuilder(
-                future: getMethod(_method),
+                future: DatabaseService().getMethod(_method),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -74,7 +74,7 @@ class ExamplePageState extends State<ExamplePage>
                                     snapshot.data.data['url']),
                                 flags: YoutubePlayerFlags(
                                   autoPlay: false,
-                                  mute: true,
+                                  mute: false,
                                 )),
                             showVideoProgressIndicator: true,
                             progressIndicatorColor: Colors.red,

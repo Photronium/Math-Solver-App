@@ -2,23 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:numbercrunching/screen/learning_material/database_service.dart';
 import 'solution/generalSolutionPage.dart';
 import 'feedback/feedback.dart';
 import 'package:flutter_tex/flutter_tex.dart';
-
-Future getMethod(String method) async {
-  var db = Firestore.instance;
-
-  QuerySnapshot qn = await db.collection("methods").getDocuments();
-  DocumentSnapshot Rmethod;
-
-  int i = 0;
-  qn.documents.forEach((document) {
-    if (document.data['name'] == method) Rmethod = document;
-  });
-
-  return Rmethod;
-}
 
 class DetailedDescriptionState extends State<DetailedDescription> {
   String method;
@@ -34,7 +21,7 @@ class DetailedDescriptionState extends State<DetailedDescription> {
         children: <Widget>[
           Container(
             child: FutureBuilder(
-                future: getMethod(method),
+                future: DatabaseService().getMethod(method),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(

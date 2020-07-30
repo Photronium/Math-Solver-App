@@ -27,7 +27,7 @@ class SortPage extends StatelessWidget {
           children: <Widget>[
             Container(
               child: FutureBuilder(
-                  future: getSorting(sort),
+                  future: DatabaseService().getSorting(sort),
                   builder: (
                     _,
                     snapshot,
