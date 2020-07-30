@@ -1,4 +1,4 @@
-# numbercrunching
+# Math Solver App (Algo Learning)
 
 The Flutter Application Project for Practice on Software Engineering (CO3055) - HCMUT.
 

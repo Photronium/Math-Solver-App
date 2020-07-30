@@ -2,22 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:numbercrunching/screen/learning_material/example/examPage.dart';
-
-Future getMethod(String method) async {
-  var db = Firestore.instance;
-
-  QuerySnapshot qn = await db.collection("methods").getDocuments();
-  DocumentSnapshot Rmethod;
-
-  int i = 0;
-  qn.documents.forEach((document) {
-    if (document.data['name'] == method) Rmethod = document;
-  });
-
-  return Rmethod;
-}
-
+import 'package:numbercrunching/screen/learning_material/example/example_page.dart';
+import '../database_service.dart';
 class generalSolutionPage extends StatefulWidget {
   final String method;
 
@@ -54,7 +40,7 @@ class _generalSolutionPageState extends State<generalSolutionPage> {
           children: <Widget>[
             Container(
               child: FutureBuilder(
-                  future: getMethod(_method),
+                  future: DatabaseService().getMethod(_method),
                   builder: (
                     _,
                     snapshot,

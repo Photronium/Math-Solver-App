@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:numbercrunching/screen/course_page.dart';
-import 'package:numbercrunching/screen/learning_material/description_page/sortPage.dart';
+import 'package:numbercrunching/screen/learning_material/description_page/sort_page.dart';
 
-import 'description_page/b&b_page.dart';
-import 'description_page/cuttingPlane_page.dart';
+import 'description_page/bb_page.dart';
+import 'description_page/cutting_plane_page.dart';
 import 'description_page/simplex_page.dart';
 
 const PrimaryColor = const Color(0xFF3786FF);

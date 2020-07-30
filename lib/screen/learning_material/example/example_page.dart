@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:numbercrunching/screen/course_page.dart';
 import 'package:numbercrunching/screen/homepage.dart';
-import '../databaseService.dart';
+import '../database_service.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../description_page/simplex_page.dart';
 
@@ -47,7 +47,7 @@ class ExamplePageState extends State<ExamplePage>
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               FutureBuilder(
-                future: getMethod(_method),
+                future: DatabaseService().getMethod(_method),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -74,7 +74,7 @@ class ExamplePageState extends State<ExamplePage>
                                     snapshot.data.data['url']),
                                 flags: YoutubePlayerFlags(
                                   autoPlay: false,
-                                  mute: true,
+                                  mute: false,
                                 )),
                             showVideoProgressIndicator: true,
                             progressIndicatorColor: Colors.red,

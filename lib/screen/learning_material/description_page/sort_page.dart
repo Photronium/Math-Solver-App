@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numbercrunching/screen/learning_material/feedback/feedback.dart';
-import '../databaseService.dart';
+import '../database_service.dart';
 import '../../homepage.dart';
 import 'dart:convert';
 
@@ -27,7 +27,7 @@ class SortPage extends StatelessWidget {
           children: <Widget>[
             Container(
               child: FutureBuilder(
-                  future: getSorting(sort),
+                  future: DatabaseService().getSorting(sort),
                   builder: (
                     _,
                     snapshot,
