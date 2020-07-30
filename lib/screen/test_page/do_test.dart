@@ -12,14 +12,14 @@ class CreateQuestion extends StatelessWidget {
 
   CreateQuestion(this.method);
 
-  String methodchosen;
+  String methodChosen;
 
   setasset() {
-    if (method == "Simplex Method") {methodchosen = "assets/json/simplex.json";}
+    if (method == "Simplex Method") {methodChosen = "assets/json/simplex.json";}
 
-    else if (method == "Branch And Bound Method") {methodchosen = "assets/json/branch.json";}
+    else if (method == "Branch And Bound Method") {methodChosen = "assets/json/branch.json";}
 
-    else if (method == "Cutting Plane Method") {methodchosen = "assets/json/cutting.json";}
+    else if (method == "Cutting Plane Method") {methodChosen = "assets/json/cutting.json";}
   }
 
   @override
@@ -27,7 +27,7 @@ class CreateQuestion extends StatelessWidget {
     setasset();
     return FutureBuilder(
       future:
-      DefaultAssetBundle.of(context).loadString(methodchosen, cache: true),
+      DefaultAssetBundle.of(context).loadString(methodChosen, cache: true),
       builder: (context, snapshot) {
         List question = json.decode(snapshot.data.toString());
         if (question == null) {
@@ -57,13 +57,13 @@ class _QuizPageState extends State<QuizPage> {
 
   _QuizPageState(this.question);
 
-  Color colortoshow = Colors.blue;
+  Color colorShow = Colors.blue;
   Color right = Colors.green;
   Color wrong = Colors.red;
   int marks = 0;
   int i = 1;
   int j = 1;
-  bool canceltimer = false;
+  bool cancelTimer = false;
   var random_array;
 
   Map<String, Color> btncolor = {
@@ -118,7 +118,7 @@ class _QuizPageState extends State<QuizPage> {
         if (timer.tick >= timerMaxSeconds)
         {
           timer.cancel();
-          canceltimer = true;
+          cancelTimer = true;
           j = 10;
           nextQuestion();
         }
@@ -147,13 +147,13 @@ class _QuizPageState extends State<QuizPage> {
   void checkAnswer(String k) {
     if (question[2][i.toString()] == question[1][i.toString()][k]) {
       marks = marks + 1;
-      colortoshow = right;
+      colorShow = right;
     } else {
-      colortoshow = wrong;
+      colorShow = wrong;
     }
     setState(() {
-      btncolor[k] = colortoshow;
-      canceltimer = true;
+      btncolor[k] = colorShow;
+      cancelTimer = true;
     });
 
     // changed timer duration to 1 second
