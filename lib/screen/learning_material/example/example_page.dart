@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:numbercrunching/screen/course_page.dart';
 import 'package:numbercrunching/screen/homepage.dart';
-import '../databaseService.dart';
+import '../database_service.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../description_page/simplex_page.dart';
 

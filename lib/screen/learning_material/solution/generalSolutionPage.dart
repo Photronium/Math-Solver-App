@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:numbercrunching/screen/learning_material/example/examPage.dart';
+import 'package:numbercrunching/screen/learning_material/example/example_page.dart';
 
 Future getMethod(String method) async {
   var db = Firestore.instance;
