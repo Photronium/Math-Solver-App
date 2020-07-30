@@ -29,33 +29,33 @@ class CreateQuestion extends StatelessWidget {
       future:
       DefaultAssetBundle.of(context).loadString(methodchosen, cache: true),
       builder: (context, snapshot) {
-        List mydata = json.decode(snapshot.data.toString());
-        if (mydata == null) {
+        List question = json.decode(snapshot.data.toString());
+        if (question == null) {
           return Scaffold(
             body: Center(
               child: Text("Loading",),
             ),
           );
         }
-        else {return QuizPage(mydata: mydata);}
+        else {return QuizPage(question: question);}
       },
     );
   }
 }
 
 class QuizPage extends StatefulWidget {
-  var mydata;
+  var question;
 
-  QuizPage({Key key, @required this.mydata}) : super(key: key);
+  QuizPage({Key key, @required this.question}) : super(key: key);
 
   @override
-  _QuizPageState createState() => _QuizPageState(mydata);
+  _QuizPageState createState() => _QuizPageState(question);
 }
 
 class _QuizPageState extends State<QuizPage> {
-  var mydata;
+  var question;
 
-  _QuizPageState(this.mydata);
+  _QuizPageState(this.question);
 
   Color colortoshow = Colors.blue;
   Color right = Colors.green;
@@ -145,7 +145,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void checkAnswer(String k) {
-    if (mydata[2][i.toString()] == mydata[1][i.toString()][k]) {
+    if (question[2][i.toString()] == question[1][i.toString()][k]) {
       marks = marks + 1;
       colortoshow = right;
     } else {
@@ -168,7 +168,7 @@ class _QuizPageState extends State<QuizPage> {
       ),
       child: MaterialButton(
         onPressed: () => checkAnswer(k),
-        child: Text(mydata[1][i.toString()][k],
+        child: Text(question[1][i.toString()][k],
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.0,
@@ -199,7 +199,7 @@ class _QuizPageState extends State<QuizPage> {
               color: Colors.white,
               padding: EdgeInsets.all(15.0),
               alignment: Alignment.centerLeft,
-              child: Text(mydata[0][i.toString()],
+              child: Text(question[0][i.toString()],
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
