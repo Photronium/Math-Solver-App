@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../drawer.dart';
-import '../description_pagegit.dart';
+import '../description_page.dart';
 const backgroundMainColor = Color(0xFFF2F2F2);
 
 class CuttingPlaneLearningPageState extends State<CuttingPlaneLearningPage>{
