@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numbercrunching/screen/homepage.dart';
 import 'package:numbercrunching/screen/test_page/selecttest.dart';
+import 'community_forum/pages/HomePage.dart';
 import '../screen/problem_solving/problem_solving_main.dart';
 import '../screen/learning_material/learning_material.dart';
 import '../screen/dashboard/dashboard.dart';
@@ -94,7 +95,10 @@ class DrawTab extends StatelessWidget {
             leading: Icon(Icons.comment),
             title: Text('Community Forum'),
             onTap: (){
-              print("TAP 5");
+              Navigator.pop(context);
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => ForumMain())
+              );
             },
           ),
         ],

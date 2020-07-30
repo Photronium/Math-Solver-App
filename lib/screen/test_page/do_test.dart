@@ -12,14 +12,14 @@ class CreateQuestion extends StatelessWidget {
 
   CreateQuestion(this.method);
 
-  String methodchosen;
+  String methodChosen;
 
   setasset() {
-    if (method == "Simplex Method") {methodchosen = "assets/json/simplex.json";}
+    if (method == "Simplex Method") {methodChosen = "assets/json/simplex.json";}
 
-    else if (method == "Branch And Bound Method") {methodchosen = "assets/json/branch.json";}
+    else if (method == "Branch And Bound Method") {methodChosen = "assets/json/branch.json";}
 
-    else if (method == "Cutting Plane Method") {methodchosen = "assets/json/cutting.json";}
+    else if (method == "Cutting Plane Method") {methodChosen = "assets/json/cutting.json";}
   }
 
   @override
@@ -27,43 +27,43 @@ class CreateQuestion extends StatelessWidget {
     setasset();
     return FutureBuilder(
       future:
-      DefaultAssetBundle.of(context).loadString(methodchosen, cache: true),
+      DefaultAssetBundle.of(context).loadString(methodChosen, cache: true),
       builder: (context, snapshot) {
-        List mydata = json.decode(snapshot.data.toString());
-        if (mydata == null) {
+        List question = json.decode(snapshot.data.toString());
+        if (question == null) {
           return Scaffold(
             body: Center(
               child: Text("Loading",),
             ),
           );
         }
-        else {return QuizPage(mydata: mydata);}
+        else {return QuizPage(question: question);}
       },
     );
   }
 }
 
 class QuizPage extends StatefulWidget {
-  var mydata;
+  var question;
 
-  QuizPage({Key key, @required this.mydata}) : super(key: key);
+  QuizPage({Key key, @required this.question}) : super(key: key);
 
   @override
-  _QuizPageState createState() => _QuizPageState(mydata);
+  _QuizPageState createState() => _QuizPageState(question);
 }
 
 class _QuizPageState extends State<QuizPage> {
-  var mydata;
+  var question;
 
-  _QuizPageState(this.mydata);
+  _QuizPageState(this.question);
 
-  Color colortoshow = Colors.blue;
+  Color colorShow = Colors.blue;
   Color right = Colors.green;
   Color wrong = Colors.red;
   int marks = 0;
   int i = 1;
   int j = 1;
-  bool canceltimer = false;
+  bool cancelTimer = false;
   var random_array;
 
   Map<String, Color> btncolor = {
@@ -118,7 +118,7 @@ class _QuizPageState extends State<QuizPage> {
         if (timer.tick >= timerMaxSeconds)
         {
           timer.cancel();
-          canceltimer = true;
+          cancelTimer = true;
           j = 10;
           nextQuestion();
         }
@@ -144,37 +144,37 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
-  void checkAnswer(String k) {
-    if (mydata[2][i.toString()] == mydata[1][i.toString()][k]) {
+  void checkAnswer(String answer) {
+    if (question[2][i.toString()] == question[1][i.toString()][answer]) {
       marks = marks + 1;
-      colortoshow = right;
+      colorShow = right;
     } else {
-      colortoshow = wrong;
+      colorShow = wrong;
     }
     setState(() {
-      btncolor[k] = colortoshow;
-      canceltimer = true;
+      btncolor[answer] = colorShow;
+      cancelTimer = true;
     });
 
     // changed timer duration to 1 second
     Timer(Duration(seconds: 1), nextQuestion);
   }
 
-  Widget selectAnswer(String k) {
+  Widget selectAnswer(String answer) {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 20.0,
       ),
       child: MaterialButton(
-        onPressed: () => checkAnswer(k),
-        child: Text(mydata[1][i.toString()][k],
+        onPressed: () => checkAnswer(answer),
+        child: Text(question[1][i.toString()][answer],
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.0,
             )
         ),
-        color: btncolor[k],
+        color: btncolor[answer],
         minWidth: 200.0,
         height: 45.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -199,7 +199,7 @@ class _QuizPageState extends State<QuizPage> {
               color: Colors.white,
               padding: EdgeInsets.all(15.0),
               alignment: Alignment.centerLeft,
-              child: Text(mydata[0][i.toString()],
+              child: Text(question[0][i.toString()],
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
