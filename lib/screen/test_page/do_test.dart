@@ -144,8 +144,8 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
-  void checkAnswer(String k) {
-    if (question[2][i.toString()] == question[1][i.toString()][k]) {
+  void checkAnswer(String answer) {
+    if (question[2][i.toString()] == question[1][i.toString()][answer]) {
       marks = marks + 1;
       colorShow = right;
     } else {
@@ -160,21 +160,21 @@ class _QuizPageState extends State<QuizPage> {
     Timer(Duration(seconds: 1), nextQuestion);
   }
 
-  Widget selectAnswer(String k) {
+  Widget selectAnswer(String answer) {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 20.0,
       ),
       child: MaterialButton(
-        onPressed: () => checkAnswer(k),
-        child: Text(question[1][i.toString()][k],
+        onPressed: () => checkAnswer(answer),
+        child: Text(question[1][i.toString()][answer],
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.0,
             )
         ),
-        color: btncolor[k],
+        color: btncolor[answer],
         minWidth: 200.0,
         height: 45.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
