@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:numbercrunching/screen/community_forum/widgets/header_page.dart';
+import '../../drawer.dart';
 import '../models/user.dart';
-import '../pages/CreateAccountPage.dart';
-import '../pages/NotificationsPage.dart';
-import '../pages/ProfilePage.dart';
-import '../pages/SearchPage.dart';
-import '../pages/TimeLinePage.dart';
-import '../pages/UploadPage.dart';
+import '../pages/create_account_page.dart';
+import '../pages/notification_page.dart';
+import '../pages/profile_page.dart';
+import '../pages/search_page.dart';
+import '../pages/timeline_page.dart';
+import '../pages/upload_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection("users");
-final postReference = Firestore.instance.collection("posts");
+final storageReference = FirebaseStorage.instance.ref().child("Post Pictures");
+final postsReference = Firestore.instance.collection("posts");
 final commentReference = Firestore.instance.collection("comments");
 final DateTime timestamp = DateTime.now();
 final timelineReference = Firestore.instance.collection("timeline");
@@ -24,24 +28,16 @@ User currentUser;
 class ForumMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Forum PSE',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData
-          (
-          scaffoldBackgroundColor: Colors.black,
-          dialogBackgroundColor: Colors.black,
-          primarySwatch: Colors.grey,
-          accentColor: Colors.black,
-          cardColor: Colors.white70,
-        ),
-        home: ForumPage()
+    return Scaffold(
+        appBar: header(context),
+//        debugShowCheckedModeBanner: false,
+        body: ForumPage(),
     );
   }
 }
 
 
-class ForumPage extends StatefulWidget {
+class ForumPage extends StatefulWidget  {
   @override
   _ForumPageState createState() => _ForumPageState();
 }
@@ -64,8 +60,9 @@ class _ForumPageState extends State<ForumPage> {
       print("Error message: " + gError);
     });
   }
-  controlSignIn(GoogleSignInAccount signInAccount) {
+  controlSignIn(GoogleSignInAccount signInAccount) async {
     if(signInAccount != null){
+      await saveUserInfo();
       setState(() {
         isSignedIn = true;
       });
@@ -82,7 +79,6 @@ class _ForumPageState extends State<ForumPage> {
   }
   logoutUser(){
     gSignIn.signOut();
-
   }
 
 
@@ -111,8 +107,8 @@ class _ForumPageState extends State<ForumPage> {
         "timestamp": timestamp,
       });
       documentSnapshot = await usersReference.document(gCurrentUser.id).get();
-      currentUser = User.fromDocument(documentSnapshot);
     }
+    currentUser = User.fromDocument(documentSnapshot);
   }
   void dispose(){
     pageController.dispose();
@@ -125,15 +121,21 @@ class _ForumPageState extends State<ForumPage> {
     });
   }
   onTapChangePage(int pageIndex){
-    pageController.animateToPage(pageIndex, duration: Duration(milliseconds: 400), curve: Curves.bounceInOut);
+    pageController.animateToPage(pageIndex, duration: Duration(milliseconds: 10), curve: Curves.bounceInOut);
   }
   Scaffold buildHomeScreen(){
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.exit_to_app, color: Colors.white,),
+        backgroundColor: Colors.green,
+        onPressed: logoutUser,
+
+      ),
       body: PageView(
         children: <Widget>[
           TimeLinePage(),
           SearchPage(),
-          UploadPage(),
+          UploadPage(gCurrentUser: currentUser,),
           ProfilePage(),
         ],
         controller: pageController,
@@ -145,7 +147,7 @@ class _ForumPageState extends State<ForumPage> {
         onTap: onTapChangePage,
         backgroundColor: Theme.of(context).accentColor,
         activeColor: Colors.white,
-        inactiveColor: Colors.blueGrey,
+        inactiveColor: Colors.black,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.search)),
@@ -158,13 +160,13 @@ class _ForumPageState extends State<ForumPage> {
   Scaffold buildSignedInScreen(){
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Theme.of(context).accentColor, Theme.of(context).primaryColor]
-          )
-        ),
+//        decoration: BoxDecoration(
+//          gradient: LinearGradient(
+//            begin: Alignment.topRight,
+//            end: Alignment.bottomLeft,
+//            colors: [Theme.of(context).accentColor, Theme.of(context).primaryColor]
+//          )
+//        ),
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +174,7 @@ class _ForumPageState extends State<ForumPage> {
           children: <Widget>[
             Text(
               "Sign in",
-              style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "Signatra"),
+              style: TextStyle(fontSize: 30, color: Colors.black, fontFamily: "Signatra"),
             ),
             GestureDetector(
               onTap: ()=> loginUser(),
@@ -194,7 +196,7 @@ class _ForumPageState extends State<ForumPage> {
   }
   @override
   Widget build(BuildContext context) {
-    if(true){
+    if(isSignedIn){
       return buildHomeScreen();
     }
     return buildSignedInScreen();

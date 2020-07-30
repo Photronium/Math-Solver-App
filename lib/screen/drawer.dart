@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numbercrunching/screen/homepage.dart';
 import 'package:numbercrunching/screen/test_page/selecttest.dart';
-import 'community_forum/pages/HomePage.dart';
+import 'community_forum/pages/forum_page.dart';
 import '../screen/problem_solving/problem_solving_main.dart';
 import '../screen/learning_material/learning_material.dart';
 import '../screen/dashboard/dashboard.dart';
@@ -27,6 +27,7 @@ class DrawTab extends StatelessWidget {
                 CircleAvatar(
                   radius: 30.0,
                   backgroundImage: AssetImage('assets/images/mycard.png'),
+//                  child: Image.network(),//gSignIn.currentUser.photoUrl),
                 ),
                 SizedBox(height: 10.0),
                 Text(

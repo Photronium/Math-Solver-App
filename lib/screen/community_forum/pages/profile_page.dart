@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/HeaderPage.dart';
-import '../widgets/ProgressWidget.dart';
+import '../../drawer.dart';
+import '../widgets/header_page.dart';
+import '../widgets/progress_widget.dart';
 
 class ProfilePage extends StatefulWidget {
 
@@ -17,6 +18,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      drawer: DrawTab(),
       appBar: header(context, strTitle: "Profile"),
     );
   }

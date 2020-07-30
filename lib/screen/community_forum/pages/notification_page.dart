@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/HeaderPage.dart';
+import '../widgets/header_page.dart';
 
 class NotificationsPage extends StatefulWidget {
   @override

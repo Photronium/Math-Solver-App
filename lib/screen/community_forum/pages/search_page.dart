@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../drawer.dart';
 import '../models/user.dart';
-import '../pages/HomePage.dart';
-import '../widgets/ProgressWidget.dart';
+import '../pages/forum_page.dart';
+import '../widgets/progress_widget.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -28,15 +29,14 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
 
   AppBar searchPageHeader(){
     return AppBar(
-      backgroundColor: Colors.black,
       title: TextFormField(
         style: TextStyle(fontSize: 18.0, color: Colors.white),
         controller: searchTextEditingController,
         decoration: InputDecoration(
           hintText: "Search...",
-          hintStyle: TextStyle(color: Colors.grey),
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+          hintStyle: TextStyle(color: Colors.white),
+          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
           filled: true,
           prefixIcon: Icon(Icons.person_pin, color: Colors.white, size: 30.0,),
           suffixIcon: IconButton(icon: Icon(Icons.clear, color: Colors.white), onPressed: emptyTextFormField,)
@@ -50,13 +50,13 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
     return Container(
       child: Center(
         child: ListView(
-          shrinkWrap: true,
+//          shrinkWrap: true,
           children: <Widget>[
             Icon(Icons.group, color: Colors.grey, size: 200.0,),
             Text(
               "Search Users",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white,fontSize: 65.0,fontWeight: FontWeight.w500),
+              style: TextStyle(color: Colors.grey,fontSize: 65.0,fontWeight: FontWeight.w500),
             )
           ],
         ),
@@ -82,7 +82,7 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      drawer: DrawTab(),
       appBar: searchPageHeader(),
       body: futureSearchResult == null ? displayNoSearchResultScreen() : displayUserFoundScreen(),
 
@@ -98,7 +98,7 @@ class UserResult extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(3.0),
       child: Container(
-        color: Colors.white54,
+        color: Colors.white,
         child: Column(
           children: <Widget>[
             GestureDetector(

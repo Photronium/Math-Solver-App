@@ -103,7 +103,7 @@ class _QuizPageState extends State<QuizPage> {
 
   final interval = const Duration(seconds: 1);
 
-  final int timerMaxSeconds = 1800;
+  final int timerMaxSeconds = 15;
 
   int currentSeconds = 0;
 

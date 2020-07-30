@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../drawer.dart';
 import '../models/user.dart';
-import '../pages/HomePage.dart';
-import '../widgets/HeaderPage.dart';
-import '../widgets/PostWidget.dart';
+import '../pages/forum_page.dart';
+import '../pages/upload_page.dart';
+import '../widgets/header_page.dart';
+import '../widgets/post_widget.dart';
 
 class TimeLinePage extends StatefulWidget {
   final User gCurrentUser;
@@ -33,6 +35,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
   @override
   Widget build(context) {
     return Scaffold(
+      drawer: DrawTab(),
       appBar: header(context, isAppTitle: true,),
       body: DisplayThis(),
     );
@@ -54,6 +57,10 @@ class DisplayThis extends StatelessWidget {
 //            default :
 //              List <DocumentSnapshot> documents = snapshot.data.documents;
               return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  child: Icon(Icons.add_comment),
+//                  onPressed: ()=> takeImage(),
+                ),
                   body: ListView.builder(
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
@@ -64,7 +71,7 @@ class DisplayThis extends StatelessWidget {
 //                            snapshot.data.documents[index]);
                         return new ListTile(
 //                          title: Text(po.username, style: TextStyle(color: Colors.white),),//
-                          title: Text("This shoud be list of posts retrived from firebase", style: TextStyle(color: Colors.white),),
+                          title: Text("This should be list of posts retrived from firebase", style: TextStyle(color: Colors.black),),
                           onTap:()=> print("post view create"),
                         );
                       }

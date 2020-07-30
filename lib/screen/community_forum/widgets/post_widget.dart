@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
-import '../pages/HomePage.dart';
-import '../widgets/CImageWidget.dart';
-import '../widgets/ProgressWidget.dart';
+import '../pages/forum_page.dart';
+import '../widgets/c_image_widget.dart';
+import '../widgets/progress_widget.dart';
 
 final userReferences = Firestore.instance.collection("users");
 

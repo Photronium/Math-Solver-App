@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../widgets/HeaderPage.dart';
+import '../widgets/header_page.dart';
 
 class CreateAccountPage extends StatefulWidget {
   @override
@@ -10,16 +10,15 @@ class CreateAccountPage extends StatefulWidget {
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
   String username;
-  int id = 0;
-  final _scaffordKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
   submitUsername(){
     final form = _formKey.currentState;
     if (form.validate()){
       form.save();
-      SnackBar snackBar  = SnackBar(content: Text("Hello" + username),);
-      _scaffordKey.currentState.showSnackBar(snackBar);
+      SnackBar snackBar  = SnackBar(content: Text("Hello " + username),);
+      _scaffoldKey.currentState.showSnackBar(snackBar);
       Timer(Duration(seconds: 4), (){
         Navigator.pop(context, username);
       });
@@ -28,7 +27,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext parentContext) {
     return Scaffold(
-      key: _scaffordKey,
+      key: _scaffoldKey,
       appBar: header(context, strTitle: "Settings", disappearedBackButton: true),
       body: ListView(
         children: <Widget>[
@@ -48,7 +47,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       key: _formKey,
                       autovalidate: true,
                       child: TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         validator: (val){
                           if(val.trim().length < 5 || val.isEmpty){
                             return "Too short username";
@@ -64,7 +63,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
                           border: OutlineInputBorder(),
                           labelText: "Username",
-                          labelStyle: TextStyle(fontSize: 16.0),
+                          labelStyle: TextStyle(fontSize: 16.0, color: Colors.black),
                           hintText: "must be at least 5 character long",
                           hintStyle: TextStyle(color: Colors.grey),
                         ),
