@@ -152,7 +152,7 @@ class _QuizPageState extends State<QuizPage> {
       colorShow = wrong;
     }
     setState(() {
-      btncolor[k] = colorShow;
+      btncolor[answer] = colorShow;
       cancelTimer = true;
     });
 
