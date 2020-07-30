@@ -10,7 +10,7 @@ Shader linearGradient = LinearGradient(
 
 class DataReader {
   TheOracle oracle = TheOracle();
-  String defaultt = "All Time";
+  String defaultType = "All Time";
   List<double> allTime = [];
   List<double> lastYear = [];
   List<double> lastMonth = [];
@@ -25,10 +25,10 @@ class DataReader {
 
   List<double> getScore() {
     updateScore();
-    if (defaultt == "All Time") return allTime;
-    if (defaultt == "Last Year") return lastYear;
-    if (defaultt == "Last Month") return lastMonth;
-    if (defaultt == "Last Week") return lastWeek;
+    if (defaultType == "All Time") return allTime;
+    if (defaultType == "Last Year") return lastYear;
+    if (defaultType == "Last Month") return lastMonth;
+    if (defaultType == "Last Week") return lastWeek;
   }
 
   List<double> getSpecificScore(String type) {
@@ -44,22 +44,22 @@ class DataReader {
     return getSpecificAverage(array);
   }
 
-  double getSpecificAverage(List<double> array) {
+  double getSpecificAverage(List<double> data) {
     double total = 0;
-    for (var i = 0; i < array.length; i++) {
-      total += array[i];
+    for (var i = 0; i < data.length; i++) {
+      total += data[i];
     }
-    return total / array.length;
+    return total / data.length;
   }
 
-  void switchMode() {
-    if (defaultt == "All Time")
-      defaultt = "Last Year";
-    else if (defaultt == "Last Year")
-      defaultt = "Last Month";
-    else if (defaultt == "Last Month")
-      defaultt = "Last Week";
-    else if (defaultt == "Last Week") defaultt = "All Time";
+  void switchType() {
+    if (defaultType == "All Time")
+      defaultType = "Last Year";
+    else if (defaultType == "Last Year")
+      defaultType = "Last Month";
+    else if (defaultType == "Last Month")
+      defaultType = "Last Week";
+    else if (defaultType == "Last Week") defaultType = "All Time";
   }
 
   double predict() {
@@ -67,8 +67,8 @@ class DataReader {
     return oracle.predict(allTime);
   }
 
-  List<double> predictGraph() {
-    return oracle.graph(allTime);
+  List<double> predictSeries() {
+    return oracle.predictSeries(allTime);
   }
 }
 
@@ -76,14 +76,14 @@ class TheOracle {
   List<double> trainedData = [];
   List<double> cubic = [];
   List<double> quartic = [];
-  int bestModelValue = 4;
+  int bestModel = 4;
 
   double predict(List<double> data) {
     if (data != trainedData) train(data);
-    return calculate(data, bestModel());
+    return calculate(data, getBestModel());
   }
 
-  List<double> graph(List<double> data) {
+  List<double> predictSeries(List<double> data) {
     if (data != trainedData) train(data);
 
     List<double> result = [];
@@ -93,8 +93,8 @@ class TheOracle {
       for (int s = 0; s < 4; s++) {
         temp = 0;
         x = i + 0.25 * s;
-        for (int j = 0; j < bestModel().length; j++) {
-          temp += bestModel()[j] * pow(x + 1, j);
+        for (int j = 0; j < getBestModel().length; j++) {
+          temp += getBestModel()[j] * pow(x + 1, j);
         }
         if (temp < 0) temp = 0;
         result.add(temp);
@@ -107,7 +107,7 @@ class TheOracle {
     return result;
   }
 
-  List<double> Regressor(List<double> data, int degree) {
+  List<double> regress(List<double> data, int degree) {
     //Polynomial Fit
     int pairs = data.length;
     List<double> x = List(pairs);
@@ -187,17 +187,17 @@ class TheOracle {
   }
 
   void train(List<double> data) {
-    cubic = Regressor(data, 3);
-    quartic = Regressor(data, 4);
+    cubic = regress(data, 3);
+    quartic = regress(data, 4);
     trainedData = data;
 
     double first = calculate(data, cubic);
     double second = calculate(data, quartic);
     if ((first - data[data.length - 1]).abs() >
         (second - data[data.length - 1]).abs())
-      bestModelValue = 4;
+      bestModel = 4;
     else
-      bestModelValue = 3;
+      bestModel = 3;
   }
 
   double calculate(List<double> data, List<double> model) {
@@ -211,8 +211,8 @@ class TheOracle {
     return result;
   }
 
-  List<double> bestModel() {
-    if (bestModelValue == 3)
+  List<double> getBestModel() {
+    if (bestModel== 3)
       return cubic;
     else
       return quartic;
@@ -246,7 +246,7 @@ class _Dashboard extends State<Dashboard> {
                 image: AssetImage('assets/images/dashboard-art.png'),
               ),
             ),
-            ScoreChart(),
+            ScoreGraph(),
             PerformanceScore(),
             PerformanceHistory(),
             ScorePredictor()
@@ -293,7 +293,7 @@ class _PerformanceScore extends State<PerformanceScore> {
                 Padding(
                     padding: EdgeInsets.all(6),
                     child: Text(
-                      userData.defaultt,
+                      userData.defaultType,
                       style: TextStyle(
                           fontSize: 20.0,
                           foreground: Paint()..shader = linearGradient),
@@ -308,7 +308,7 @@ class _PerformanceScore extends State<PerformanceScore> {
         ),
         onPressed: () {
           setState(() {
-            userData.switchMode();
+            userData.switchType();
           });
         },
       ),
@@ -316,20 +316,20 @@ class _PerformanceScore extends State<PerformanceScore> {
   }
 }
 
-class ScoreChart extends StatefulWidget {
+class ScoreGraph extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ScoreChart();
+    return _ScoreGraph();
   }
 }
 
-class _ScoreChart extends State<ScoreChart> {
+class _ScoreGraph extends State<ScoreGraph> {
   DataReader userData = DataReader();
   List<double> chartValues;
 
   @override
-  List<double> createAvg() {
+  List<double> createAverage() {
     List<double> result = [];
     for (var i = 0; i < chartValues.length - 1; i++) {
       result.add(chartValues[i]);
@@ -339,10 +339,10 @@ class _ScoreChart extends State<ScoreChart> {
     return result;
   }
 
-  void reDraw(List<double> array) {
-    chartValues = array;
+  void reDraw(List<double> data) {
+    chartValues = data;
     for (var i = 0; i <= 3; i++) {
-      chartValues = createAvg();
+      chartValues = createAverage();
     }
   }
 
@@ -405,14 +405,14 @@ class _ScoreChart extends State<ScoreChart> {
                     ),
                   ),
                   Text(
-                    userData.defaultt,
+                    userData.defaultType,
                     style: TextStyle(fontSize: 14.0),
                   ),
                 ]),
           ),
           onPressed: () {
             setState(() {
-              userData.switchMode();
+              userData.switchType();
               reDraw(userData.getScore());
             });
           },
@@ -430,8 +430,8 @@ class PerformanceHistory extends StatefulWidget {
 
 class _PerformanceHistory extends State<PerformanceHistory> {
   DataReader userData = DataReader();
-  double average = 0;
-  double oldAverage = 0;
+  double currentScore = 0;
+  double oldScore = 0;
   double difference = 0;
 
   void initState() {
@@ -440,11 +440,11 @@ class _PerformanceHistory extends State<PerformanceHistory> {
   }
 
   void calculate() {
-    average = userData.getAverage();
+    currentScore = userData.getAverage();
     List<double> oldData = userData.getScore();
     oldData.removeLast();
-    oldAverage = userData.getSpecificAverage(oldData);
-    difference = average / oldAverage - 1;
+    oldScore = userData.getSpecificAverage(oldData);
+    difference = currentScore / oldScore - 1;
   }
 
   Widget build(BuildContext context) {
@@ -474,8 +474,8 @@ class _PerformanceHistory extends State<PerformanceHistory> {
                           padding: EdgeInsets.only(top: 10),
                           child: Container(
                             color: Color.fromRGBO(
-                                50, (average * 25).toInt(), 255, 1),
-                            width: average * 25,
+                                50, (currentScore * 25).toInt(), 255, 1),
+                            width: currentScore * 25,
                             height: 20,
                           ),
                         ),
@@ -486,8 +486,8 @@ class _PerformanceHistory extends State<PerformanceHistory> {
                           padding: EdgeInsets.only(top: 10),
                           child: Container(
                             color: Color.fromRGBO(
-                                50, (oldAverage * 25).toInt(), 255, 1),
-                            width: oldAverage * 25,
+                                50, (oldScore * 25).toInt(), 255, 1),
+                            width: oldScore * 25,
                             height: 20,
                           ),
                         ),
@@ -516,9 +516,6 @@ class _PerformanceHistory extends State<PerformanceHistory> {
 }
 
 class ScorePredictor extends StatefulWidget {
-  final Shader linearGradient = LinearGradient(
-    colors: <Color>[Colors.blue, Colors.greenAccent],
-  ).createShader(Rect.fromLTWH(0.0, 0.0, 120.0, 120.0));
 
   @override
   State<StatefulWidget> createState() {
@@ -532,7 +529,15 @@ class _ScorePredictor extends State<ScorePredictor> {
   bool showGraph = false;
   DataReader userData = DataReader();
 
-  var Blocked = Column(
+  void changeState(){
+    if (!showFuture) {
+      showFuture = true;
+    } else {
+      showGraph = true;
+    }
+  }
+
+  var entranceView = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -556,7 +561,7 @@ class _ScorePredictor extends State<ScorePredictor> {
       ]);
 
   Widget build(BuildContext context) {
-    var Unblocked = Column(
+    var scoreView = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -581,7 +586,7 @@ class _ScorePredictor extends State<ScorePredictor> {
           )
         ]);
 
-    var Graph = Column(
+    var graphView = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -595,19 +600,19 @@ class _ScorePredictor extends State<ScorePredictor> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                for (var i = 0; i < userData.predictGraph().length; i++)
+                for (var i = 0; i < userData.predictSeries().length; i++)
                   Column(children: <Widget>[
                     Column(children: <Widget>[
                       Container(
                         color: Color.fromRGBO(0, 0, 0, 0),
                         width: 4,
-                        height: 300 - userData.predictGraph()[i] * 30,
+                        height: 300 - userData.predictSeries()[i] * 30,
                       ),
                       Container(
                         color: Color.fromRGBO(50,
-                            (userData.predictGraph()[i] * 25).toInt(), 255, 1),
+                            (userData.predictSeries()[i] * 25).toInt(), 255, 1),
                         width: 4,
-                        height: userData.predictGraph()[i] * 30,
+                        height: userData.predictSeries()[i] * 30,
                       ),
                     ]),
                   ])
@@ -626,23 +631,19 @@ class _ScorePredictor extends State<ScorePredictor> {
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 18),
             child: Column(children: <Widget>[
-              showFuture ? Unblocked : Blocked,
+              showFuture ? scoreView : entranceView,
               showFuture && !showGraph
                   ? Padding(
                       padding: EdgeInsets.only(top: 5),
                       child: Text("Tap to see your score trend",
                           style: TextStyle(color: Colors.blue)))
                   : Text(""),
-              showGraph ? Graph : Text(""),
+              showGraph ? graphView : Text(""),
             ]),
           ),
           onPressed: () {
             setState(() {
-              if (!showFuture) {
-                showFuture = true;
-              } else {
-                showGraph = true;
-              }
+              changeState();
             });
           },
         ));
