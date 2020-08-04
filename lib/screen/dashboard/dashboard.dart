@@ -241,7 +241,7 @@ class _Dashboard extends State<Dashboard> {
           padding: const EdgeInsets.all(padding),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 40),
+              padding: EdgeInsets.only(bottom: 40),
               child: Image(
                 image: AssetImage('assets/images/dashboard-art.png'),
               ),
